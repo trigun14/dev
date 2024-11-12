@@ -24,18 +24,17 @@ jobs:
 
       - name: Copy Files to Destination Repository
         env:
-          REPO_NAME: "trigun14/stage"  # Updated to your destination repository
+          REPO_NAME: "trigun14/stage"  # Destination repository name
         run: |
-          # Clone the destination repository
-          git clone git@github.com:$REPO_NAME.git dest-repo
-          
-          # Copy files to the cloned repository (adjust the source path as needed)
-          cp -R path/to/your/files/* dest-repo/
+          # Clone the destination repository into the current directory (no separate folder)
+          git clone git@github.com:$REPO_NAME.git
 
-          # Commit and push changes
-          cd dest-repo
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          # Copy files to the cloned repository's root, excluding the .github directory
+          shopt -s extglob
+          cp -R !(path/to/.github) ./stage/  # Adjust to target the correct folder
+
+          # Commit and push changes directly to the destination repository
+          cd stage  # Move to the cloned repo
           git add .
           git commit -m "Copied files from dev repository"
           git push origin main  # Change 'main' to your destination branch if needed
