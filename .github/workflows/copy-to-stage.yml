@@ -24,8 +24,6 @@ jobs:
 
       - name: Push Changes to Stage Repository using GitHub Action
         uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}  # Use GitHub token for authentication
         with:
           source-directory: '.'  # Push the current directory (which is now the dev repository's files)
           destination-github-username: 'trigun14'  # Your GitHub username
