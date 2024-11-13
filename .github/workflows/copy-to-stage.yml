@@ -3,49 +3,32 @@ name: Copy Files to Stage Repo
 on:
   push:
     branches:
-      - main  #Trigger the workflow when changes are pushed to the 'main' branch
+      - main  # Trigger the workflow when changes are pushed to the 'main' branch of the dev repository
 
 jobs:
   copy-files:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Source Repository (dev)
-        uses: actions/checkout@v3  # Checks out the 'dev' repository (source)
+      - name: Checkout Dev Repository (main branch)
+        uses: actions/checkout@v3
+        with:
+          repository: trigun14/dev
+          ref: main  # Checkout 'main' branch of dev repository
 
-      - name: Set up SSH for Destination Repository
+      - name: Checkout Stage Repository (stage branch)
+        uses: actions/checkout@v3
+        with:
+          repository: trigun14/stage
+          ref: stage  # Checkout 'stage' branch of stage repository
+
+      - name: Push Changes to Stage Repository using GitHub Action
+        uses: cpina/github-action-push-to-another-repository@main
         env:
-          SSH_KEY: ${{ secrets.DEST_REPO_SSH_KEY }}
-        run: |
-          # Set up SSH keys for secure access to the destination repository
-          mkdir -p ~/.ssh
-          echo "$SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-      - name: Prepare and Push to Stage Repository
-        run: |
-          # Clone the destination repository (stage) into a 'stage' folder
-          git clone git@github.com:trigun14/stage.git stage/
-          
-          # Copy contents of the dev repo to the 'stage' folder
-          shopt -s extglob
-          cp -r !(stage|.git|.github) stage/ # Copy everything except the excluded folders
-          
-          # Loop to rename the files 
-          for file in stage/dev-*.yaml;
-          do
-          mv "$file" "${file/dev-/stage-}"
-          done
-          
-          # Navigate to the 'stage' directory
-          cd stage
-
-          # Set Git configuration for commit
-          git config --global user.name "trigun14"
-          git config --global user.email "trigunanandmishra07@gmail.com"
-
-          # Add changes, commit, and push to the destination repository
-          git add .  # Stage all changes
-          git commit -m "Copied files from dev repository"  # Commit changes
-          git push origin main  # Push to the 'main' branch of the destination repo
+          API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for authentication
+        with:
+          source-directory: '.'  # Push the current directory (which is now the dev repository's files)
+          destination-github-username: 'trigun14'  # Your GitHub username
+          destination-repository-name: 'stage'  # The destination repository name (stage repo)
+          user-email: 'trigunanandmishra07@gmail.com'  # Your GitHub email
+          target-branch: stage  # The branch of the destination repo to push changes to
