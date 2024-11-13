@@ -1,32 +1,30 @@
-name: Copy Files to Stage Repo 
-
+name: Sync Repos Workflow
 on:
   push:
     branches:
-      - main  # Trigger-the-work flow when changes are-pushed to the 'main' branch of the dev repository
+      - main  # Trigger the workflow when changes are pushed to the 'main' branch
 
 jobs:
-  copy-files:
+  sync:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Dev Repository (main branch)
-        uses: actions/checkout@v3
+      - name: Checkout source repository (dev)
+        uses: actions/checkout@v2
         with:
-          repository: trigun14/dev
-          ref: main  # Checkout 'main' branch of dev repository
+          repository: trigun14/dev  # Source repository (dev repo)
+          ref: main  # Checkout the main branch of the dev repo
 
-      - name: Checkout Stage Repository (stage branch)
-        uses: actions/checkout@v3
+      - name: Sync files to target repository (stage)
+        uses: FedericoGarza/sync-repos@main
         with:
-          repository: trigun14/stage
-          ref: main  # Checkout 'stage' branch of stage repository
-
-      - name: Push Changes to Stage Repository using GitHub Action
-        uses: cpina/github-action-push-to-another-repository@main
-        with:
-          source-directory: '.'  # Push the current directory (which is now the dev repository's files)
-          destination-github-username: 'trigun14'  # Your GitHub username
-          destination-repository-name: 'stage'  # The destination repository name (stage repo)
-          user-email: 'trigunanandmishra07@gmail.com'  # Your GitHub email
-          target-branch: main  # The branch of the destination repo to push changes to
+          target-repo: trigun14/stage  # Target repository (stage repo)
+          target-path: '.'  # Path in the target repo where changes will be reflected
+          source-path: '.'  # Source path to be synced (copy everything)
+          branch-name: sync-branch  # Branch to create for the changes
+          github-token: ${{ secrets.API_TOKEN_GITHUB }}  # GitHub Token for authentication
+          commit-message: 'Sync files from dev repository to stage'  # Commit message
+          base-branch: main  # Base branch for changes
+          label: sync  # Label for the PR (optional)
+          user-email: trigunanandmishra07@gmail.com  # Your email for commits
+          user-name: trigun14  # Your GitHub username
