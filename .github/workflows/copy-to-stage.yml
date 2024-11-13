@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout source repository (dev)
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: trigun14/dev  # Source repository (dev repo)
           ref: main  # Checkout the main branch of the dev repo
@@ -21,7 +21,7 @@ jobs:
           target-repo: trigun14/stage  # Target repository (stage repo)
           target-path: '.'  # Path in the target repo where changes will be reflected
           source-path: '.'  # Source path to be synced (copy everything)
-          branch-name: sync-branch  # Branch to create for the changes
+          branch-name: main  # Branch to create for the changes
           github-token: ${{ secrets.API_TOKEN_GITHUB }}  # GitHub Token for authentication
           commit-message: 'Sync files from dev repository to stage'  # Commit message
           base-branch: main  # Base branch for changes
