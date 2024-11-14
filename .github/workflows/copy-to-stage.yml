@@ -1,30 +1,23 @@
-name: Sync Repos Workflow
-on:
+name: Repo Sync
+
+on: 
   push:
     branches:
-      - main  # Trigger the workflow when changes are pushed to the 'main' branch
+      - main       # Trigger on push to main branch
+  delete:          # Trigger on delete event to keep sync aligned
 
 jobs:
   sync:
     runs-on: ubuntu-latest
-
+    name: Git Repo Sync
     steps:
-      - name: Checkout source repository (dev)
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
-          repository: trigun14/dev  # Source repository (dev repo)
-          ref: main  # Checkout the main branch of the dev repo
+          fetch-depth: 0
 
-      - name: Sync files to target repository (stage)
-        uses: FedericoGarza/sync-repos@main
+      - name: Sync with Stage Repository
+        uses: wangchucheng/git-repo-sync@v0.1.0
         with:
-          target-repo: trigun14/stage  # Target repository (stage repo)
-          target-path: .  # Path in the target repo where changes will be reflected
-          source-path: .  # Source path to be synced (copy everything)
-          branch-name: main  # Branch to create for the changes
-          github-token: ${{ secrets.API_TOKEN_GITHUB }}  # GitHub Token for authentication
-          commit-message: 'Sync files from dev repository to stage'  # Commit message
-          base-branch: main  # Base branch for changes
-          label: sync  # Label for the PR (optional)
-          user-email: trigunanandmishra07@gmail.com  # Your email for commits
-          user-name: trigun14  # Your GitHub username
+          target-url: https://github.com/trigun14/stage.git  # URL of the target (stage) repo
+          target-username: trigun14                          # GitHub username
+          target-token: ${{ secrets.API_TOKEN_GITHUB }}                   # Personal Access Token (PAT) stored as 'PAT' in Secrets
