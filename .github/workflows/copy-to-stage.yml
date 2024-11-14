@@ -20,6 +20,6 @@ jobs:
       - name: Sync with Stage Repository
         uses: wangchucheng/git-repo-sync@v0.1.0
         with:
-          target-url: https://github.com/trigun14/stage.git  # URL of the target (stage) repo
+          target-url: https://github.com/trigun14/stage1.git  # URL of the target (stage) repo
           target-username: trigun14                          # GitHub username
           target-token: ${{ secrets.GITHUB_TOKEN }}
