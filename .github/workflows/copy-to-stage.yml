@@ -7,8 +7,6 @@ on:
 
 jobs:
   copy-files:
-    runs-on: ubuntu-latest
-    build:
     name: Validate links
     runs-on: ubuntu-latest
     steps:
