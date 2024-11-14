@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main       # Trigger on push to maIn -branch 
-  delete:          # Trigger on delete event to keep sync aligned
 permissions:
       contents: write # This is required for actions/checkout
 
