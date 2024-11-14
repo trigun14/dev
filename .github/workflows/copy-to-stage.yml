@@ -19,8 +19,8 @@ jobs:
         uses: FedericoGarza/sync-repos@main
         with:
           target-repo: trigun14/stage  # Target repository (stage repo)
-          target-path: '.'  # Path in the target repo where changes will be reflected
-          source-path: '.'  # Source path to be synced (copy everything)
+          target-path: .  # Path in the target repo where changes will be reflected
+          source-path: .  # Source path to be synced (copy everything)
           branch-name: main  # Branch to create for the changes
           github-token: ${{ secrets.API_TOKEN_GITHUB }}  # GitHub Token for authentication
           commit-message: 'Sync files from dev repository to stage'  # Commit message
