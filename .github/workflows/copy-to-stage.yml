@@ -1,9 +1,9 @@
-name: Sync Files
+name: Push Entire Repo to Another Repo
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger this action when changes are pushed to the main branch
   workflow_dispatch:
 
 jobs:
@@ -11,18 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Repository
-        uses: actions/checkout@v4  # Ensure you're using the latest version
+        uses: actions/checkout@v4  # Ensure you're using the latest version of the checkout action
 
-      - name: Sync Files with Target Repository
-        uses: BetaHuhn/repo-file-sync-action@v1
+      - name: Push entire repository to trigun14/stage repo
+        uses: bitprj/push-subdir@0.3  # Using this action to push the entire repo
         with:
-          GH_PAT: ${{ secrets.PAT_TOKEN }}  # Ensure the secret is set with your Personal Access Token
-
-      - name: Push to Target Repository
-        uses: x-actions/gh-pages@release/v1
+          args: ./ trigun14 stage main  # Push the whole repo to the target repository's main branch
         env:
-          GITHUB_EMAIL: "trigunanandmishra07@gmail.com"  # Set your GitHub email here
-          GITHUB_USERNAME: "trigun14"  # Set your GitHub username here
-          PUBLISH_REPO: https://${{ secrets.PAT_TOKEN }}@github.com/trigun14/stage  # Use the PAT for authentication
-          PUBLISH_BRANCH: main  # The branch you want to push to (default: main)
-          PUBLISH_DIR: ./  # The directory of files you want to push (default: the whole repo)
+          API_TOKEN_GITHUB: ${{ secrets.PAT_TOKEN }}  # Your Personal Access Token for authentication
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for default repository actions
