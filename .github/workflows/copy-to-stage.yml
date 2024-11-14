@@ -20,4 +20,4 @@ jobs:
         with:
           target-url: https://github.com/trigun14/stage.git  # URL of the target (stage) repo
           target-username: trigun14                          # GitHub username
-          target-token: ${{ secrets.API_TOKEN_GITHUB }}                   # Personal Access Token (PAT) stored as 'PAT' in Secrets
+          target-token: ${{ secrets.PAT }}                   # Personal Access Token (PAT) stored as 'PAT' in Secrets
