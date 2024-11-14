@@ -3,7 +3,7 @@ name: Repo Sync
 on: 
   push:
     branches:
-      - main       # Trigger on push to main branch
+      - main       # Trigger on push to maIn -branch
   delete:          # Trigger on delete event to keep sync aligned
 
 jobs:
