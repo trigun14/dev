@@ -17,9 +17,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Sync with Stage Repository
-        uses: wangchucheng/git-repo-sync@v0.1.0
+      - name: Pushes to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.PAT }}
         with:
-          target-url: https://github.com/trigun14/stage1.git  # URL of the target (stage) repo
-          target-username: trigun14                          # GitHub username
-          target-token: ${{ secrets.GITHUB_TOKEN }}
+          source-directory: '.'
+          destination-github-username: 'trigun14'
+          destination-repository-name: 'https://github.com/trigun14/stage.git'
+          user-email: trigunanandmishra@07gmail.com
+          target-branch: main
