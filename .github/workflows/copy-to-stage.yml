@@ -1,42 +1,27 @@
-name: Copy Files to Stage Repo
+name: Sync Files
 
 on:
   push:
     branches:
-      - main  # Trigger the workflow when changes are pushed to the 'main' branch of the dev1 repository
+      - main
+  workflow_dispatch:
 
 jobs:
-  copy-files:
-    name: Validate links
+  sync:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Validate links
-      uses: ad-m/report-link-action@master
-      with:
-        github_token: ${{ secrets.PAT }}
+      - name: Checkout Repository
+        uses: actions/checkout@v4  # Ensure you're using the latest version
 
-    steps:
-      # Step 1: Checkout Dev Repository
-      - name: Checkout Dev Repository (main branch)
-        uses: actions/checkout@v3
+      - name: Sync Files with Target Repository
+        uses: BetaHuhn/repo-file-sync-action@v1
         with:
-          repository: trigun14/dev
-          ref: main  # Checkout 'main' branch of dev1 repository
+          GH_PAT: ${{ secrets.PAT_TOKEN }}  # Ensure the secret is set with your Personal Access Token
 
-      # Step 2: Checkout Stage Repository as Destination
-      - name: Checkout Stage Repository (main branch)
-        uses: actions/checkout@v3
+      - name: Push changes to Target Repository
+        uses: peter-evans/git-push@v5
         with:
-          repository: trigun14/stage
-          ref: main  # Checkout 'main' branch of stage1 repository
-          
-
-
-      # Step 4: Commit and Push Changes to Stage Repository
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PAT }}
-          branch: main
-          force_with_lease: true
+          github_token: ${{ secrets.PAT_TOKEN }}
+          repository: trigun14/stage  # Replace with the target repo name
+          branch: main  # Replace with the target branch name (default: main)
+          force: true  # Optional: Force push, only use if needed
