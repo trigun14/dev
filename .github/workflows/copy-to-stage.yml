@@ -12,6 +12,8 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     name: Git Repo Sync
+    permissions:
+      contents: write
 
 
     steps:
