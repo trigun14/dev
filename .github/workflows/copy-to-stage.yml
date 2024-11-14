@@ -24,6 +24,6 @@ jobs:
         with:
           source-directory: '.'
           destination-github-username: 'trigun14'
-          destination-repository-name: 'https://github.com/trigun14/stage.git'
+          destination-repository-name: 'stage'
           user-email: trigunanandmishra@07gmail.com
           target-branch: main
