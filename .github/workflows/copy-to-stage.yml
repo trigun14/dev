@@ -10,7 +10,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout Source Repository
         uses: actions/checkout@v4  # Ensure you're using the latest version
 
       - name: Sync Files with Target Repository
@@ -18,10 +18,11 @@ jobs:
         with:
           GH_PAT: ${{ secrets.PAT_TOKEN }}  # Ensure the secret is set with your Personal Access Token
 
-      - name: Push changes to Target Repository
-        uses: peter-evans/git-push@v5
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          repository: trigun14/stage  # Replace with the target repo name
-          branch: main  # Replace with the target branch name (default: main)
-          force: true  # Optional: Force push, only use if needed
+      - name: Push to Target Repository
+        uses: x-actions/gh-pages@release/v1
+        env:
+          GITHUB_EMAIL: "trigunanandmishra07@gmail.com"  # Set your GitHub email here
+          GITHUB_USERNAME: "trigun14"  # Set your GitHub username here
+          PUBLISH_REPO: https://${{ secrets.PAT_TOKEN }}@github.com/trigun14/stage  # Use the PAT for authentication
+          PUBLISH_BRANCH: main  # The branch you want to push to (default: main)
+          PUBLISH_DIR: ./  # The directory of files you want to push (default: the whole repo)
