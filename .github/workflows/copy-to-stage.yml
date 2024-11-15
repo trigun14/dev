@@ -1,52 +1,62 @@
-name: Update Tag Value in YAML Files
-
+name: Update Tags for Specific Files
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the main branch of the source repo
+      - main
 
 jobs:
-  update-tag-value:
+  update-tags:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the source repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Checkout the target repository (prod repo)
-        uses: actions/checkout@v3
-        with:
-          repository: 'trigun14/stage'  # Specify the target repo (stage repo)
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: stage-repo  # Clone the dev repo into a subdirectory
 
-      - name: Update version tag in YAML files
-        uses: fjogeleit/yaml-update-action@main
-        with:
-          changes: |
-            {
-              "stage/dev-ai-gateway-values.yaml": {
-                "tag": ""
-              },
-              "stage/dev-api-env-values.yaml": {
-                "tag": ""
-              },
-              "stage/dev-budget-checker-values.yaml": {
-                "tag": ""
-              },
-              "stage/dev-bullboard-values.yaml": {
-                "tag": ""
-              },
-              "stage/dev-catalog-automation-values.yaml": {
-                "tag": ""
-              },
-              "stage/dev-common-values.yaml": {
-                "tag": ""
-              }
-            }
-          commitChange: true
-          message: 'Update tag version to v1.0.1 in multiple files'
-          createPR: false
-          targetBranch: 'main'  # Target branch in the prod repository
-          title: 'Update tag version in YAML files'
-      
 
+      # Update Tag for dev-ai-gateway-values.yaml
+      - name: Update Tag for dev-ai-gateway-values.yaml
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Update Tag for dev-api-env-values.yaml
+      - name: Update Tag for dev-api-env-values.yaml
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Update Tag for dev-budget-checker-values.yaml
+      - name: Update Tag for dev-budget-checker-values.yaml
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Update Tag for dev-bullboard-values.yaml
+      - name: Update Tag for dev-bullboard-values.yaml
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Update Tag for dev-catalog-automation-values.yaml
+      - name: Update Tag for dev-catalog-automation-values.yaml
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Update Tag for dev-common-values.yaml
+      - name: Update Tag for dev-common-values.yaml
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
