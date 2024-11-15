@@ -10,8 +10,8 @@ serviceAccount:
 name: dev-ai-gateway
 image:
   pullPolicy: IfNotPresent
-  tag: bd624fhahahahahh2cc78ddhaha429
-  command: [node, dist/apps/ai-gateway/apps/ai-gateway/src/main]
+  tag: bd624fhahahahahh2csc78ddhaha429
+  command: [node, dist/appcvs/ai-gateway/apps/ai-gateway/src/main]
   resources:
     requests:
       memory: "256Mi"
