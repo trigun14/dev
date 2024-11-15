@@ -24,22 +24,22 @@ jobs:
         with:
           changes: |
             {
-              "stage-repo/dev-ai-gateway-values.yaml": {
+              "stage/dev-ai-gateway-values.yaml": {
                 "tag": ""
               },
-              "stage-repo/dev-api-env-values.yaml": {
+              "stage/dev-api-env-values.yaml": {
                 "tag": ""
               },
-              "stage-repo/dev-budget-checker-values.yaml": {
+              "stage/dev-budget-checker-values.yaml": {
                 "tag": ""
               },
-              "stage-repo/dev-bullboard-values.yaml": {
+              "stage/dev-bullboard-values.yaml": {
                 "tag": ""
               },
-              "stage-repo/dev-catalog-automation-values.yaml": {
+              "stage/dev-catalog-automation-values.yaml": {
                 "tag": ""
               },
-              "stage-repo/dev-common-values.yaml": {
+              "stage/dev-common-values.yaml": {
                 "tag": ""
               }
             }
