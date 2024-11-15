@@ -15,7 +15,7 @@ jobs:
       - name: Checkout the target repository (prod repo)
         uses: actions/checkout@v3
         with:
-          repository: 'trigun14/stage'  # Specify the target repo (prod repo)
+          repository: 'trigun14/stage'  # Specify the target repo (stage repo)
           token: ${{ secrets.GITHUB_TOKEN }}
           path: stage-repo  # Clone the dev repo into a subdirectory
 
@@ -45,7 +45,7 @@ jobs:
             }
           commitChange: true
           message: 'Update tag version to v1.0.1 in multiple files'
-          createPR: 'false'
+          createPR: false
           targetBranch: 'main'  # Target branch in the prod repository
           title: 'Update tag version in YAML files'
       
