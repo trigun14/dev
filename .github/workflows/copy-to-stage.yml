@@ -1,62 +1,32 @@
-name: Update Tags for Specific Files
+name: Sync Tags to Staging
+
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'  # Adjust this pattern based on your tagging convention
 
 jobs:
-  update-tags:
+  sync-tags:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-
-
-      # Update Tag for dev-ai-gateway-values.yaml
-      - name: Update Tag for dev-ai-gateway-values.yaml
-        uses: richardsimko/update-tag@v1
+      - name: Checkout Dev Repo
+        uses: actions/checkout@v2
+        
+      - name: Sync Files to Staging Repo
+        uses: Redocly/repo-file-sync-action@main
         with:
-          tag_name: tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Update Tag for dev-api-env-values.yaml
-      - name: Update Tag for dev-api-env-values.yaml
-        uses: richardsimko/update-tag@v1
-        with:
-          tag_name: tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Update Tag for dev-budget-checker-values.yaml
-      - name: Update Tag for dev-budget-checker-values.yaml
-        uses: richardsimko/update-tag@v1
-        with:
-          tag_name: tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Update Tag for dev-bullboard-values.yaml
-      - name: Update Tag for dev-bullboard-values.yaml
-        uses: richardsimko/update-tag@v1
-        with:
-          tag_name: tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Update Tag for dev-catalog-automation-values.yaml
-      - name: Update Tag for dev-catalog-automation-values.yaml
-        uses: richardsimko/update-tag@v1
-        with:
-          tag_name: tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Update Tag for dev-common-values.yaml
-      - name: Update Tag for dev-common-values.yaml
-        uses: richardsimko/update-tag@v1
-        with:
-          tag_name: tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAT: ${{ secrets.PAT }}  # Your GitHub Personal Access Token
+          sync_config: |
+            trigun14/stage@main:
+              - source: dev-ai-gateway-values.yaml
+                dest: stage-ai-gateway-values.yaml
+              - source: dev-api-env-values.yaml
+                dest: stage-api-env-values.yaml
+              - source: dev-budget-checker-values.yaml
+                dest: stage-budget-checker-values.yaml
+              - source: dev-bullboard-values.yaml
+                dest: stage-bullboard-values.yaml
+              - source: dev-catalog-automation-values.yaml
+                dest: stage-catalog-automation-values.yaml
+              - source: dev-common-values.yaml
+                dest: stage-common-values.yaml
