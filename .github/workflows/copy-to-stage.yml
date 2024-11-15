@@ -1,22 +1,52 @@
-name: Push Entire Repo to Another Repo
+name: Update Tag Value in YAML Files
 
 on:
   push:
     branches:
-      - main  # Trigger this action when changes are pushed to the main branch
-  workflow_dispatch:
+      - main  # Trigger the workflow on push to the main branch of the source repo
 
 jobs:
-  sync:
+  update-tag-value:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Source Repository
-        uses: actions/checkout@v4  # Ensure you're using the latest version of the checkout action
+      - name: Checkout the source repository
+        uses: actions/checkout@v3
 
-      - name: Push entire repository to trigun14/stage repo
-        uses: bitprj/push-subdir@0.3  # Using this action to push the entire repo
+      - name: Checkout the target repository (prod repo)
+        uses: actions/checkout@v3
         with:
-          args: ./ trigun14 stage main  # Push the whole repo to the target repository's main branch
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.PAT_TOKEN }}  # Your Personal Access Token for authentication
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for default repository actions
+          repository: 'trigun14/stage'  # Specify the target repo (prod repo)
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: stage-repo  # Clone the dev repo into a subdirectory
+
+      - name: Update version tag in YAML files
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          changes: |
+            {
+              "stage-repo/dev-ai-gateway-values.yaml": {
+                "tag": ""
+              },
+              "stage-repo/dev-api-env-values.yaml": {
+                "tag": ""
+              },
+              "stage-repo/dev-budget-checker-values.yaml": {
+                "tag": ""
+              },
+              "stage-repo/dev-bullboard-values.yaml": {
+                "tag": ""
+              },
+              "stage-repo/dev-catalog-automation-values.yaml": {
+                "tag": ""
+              },
+              "stage-repo/dev-common-values.yaml": {
+                "tag": ""
+              }
+            }
+          commitChange: true
+          message: 'Update tag version to v1.0.1 in multiple files'
+          createPR: 'false'
+          targetBranch: 'main'  # Target branch in the prod repository
+          title: 'Update tag version in YAML files'
+      
+
