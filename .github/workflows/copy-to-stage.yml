@@ -3,7 +3,7 @@ name: Sync Tags to Staging
 on:
   push:
     tags:
-      - 'v*'  # Adjust this pattern based on your tagging convention
+      - 'tag'  # Adjust this pattern based on your tagging convention
 
 jobs:
   sync-tags:
