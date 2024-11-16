@@ -1,4 +1,4 @@
-replicaCount: 2
+kaisa replicaCount: 2
 imagePullSecrets: []
 nameOverride: "dev-api-env"
 fullnameOverride: "dev-api-env"
