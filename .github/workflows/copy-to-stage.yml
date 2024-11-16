@@ -26,13 +26,13 @@ jobs:
           changes: |
             {
               "stage/main/stage-ai-gateway-values.yaml": {
-                "backend.version": "v1.0.1"
+                "image.tag": ""
               },
               "stage/main/stage-api-env-values.yaml": {
-                "backend.version": "v1.0.1"
+                "image.tag": ""
               },
               "stage/main/stage-budget-checker-values.yaml": {
-                "backend.version": "v1.0.1"
+                "image.tag": ""
               }
             }
           commitChange: true
