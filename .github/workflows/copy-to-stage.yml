@@ -1,32 +1,39 @@
-name: Update Image Tag in Files
+name: Update Image Tags
 
 on:
   push:
-    branches:
-      - main  # Trigger only when pushing to the 'main' branch
     paths:
-      - dev-ai-gateway-values.yaml  # Trigger only if this specific file is changed
-    tags:
-      - 'image:*'  # Trigger on tags starting with 'image:
-          
+      - "dev-*.yaml"  # Monitor changes in all source YAML files with 'dev-' prefix.
+
 jobs:
-  update-multiple-files-tags:
+  update-tags:
     runs-on: ubuntu-latest
+
     steps:
-      # Step 1: Checkout Repository
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Checkout Source Repository
+        uses: actions/checkout@v3
+
+      - name: Determine Changed Files
+        id: files
+        run: |
+          echo "::set-output name=files::$(git diff --name-only HEAD^ HEAD | grep '^dev-.*\.yaml$')"
+
+      - name: Update Image Tags in Target Repository
+        if: steps.files.outputs.files != ''
+        uses: fjogeleit/yaml-update-action@main
         with:
-          ref: ${{ github.head_ref }} # Fetch the current branch/tag reference
-          fetch-depth: 0  # Fetch full history for tag manipulation
-          token: ${{ secrets.PAT_TOKEN }}
-      # Step 4: Pushxddd Changes to Stage Repository
-      - name: Push Changes to Stage Repository
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          repository: trigun14/stage  # Push to the stage1 repository
-          branch: main  # Target the main branch
-          tags : true
-          force: true  # Force push in case of conflicts
-      
+          repository: trigun14/stage
+          branch: main
+          targetBranch: main
+          createPR: false
+          message: 'Update image tags for updated files'
+          changes: |
+            {
+              "stage-ai-gateway-values.yaml": {
+                "image.tag": "new-tag-value"
+              },
+              "stage-bullboard-values.yaml": {
+                "image.tag": "new-tag-value"
+              }
+            }
+          token: ${{ secrets.GITHUB_TOKEN }}
