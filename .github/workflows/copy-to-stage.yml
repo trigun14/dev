@@ -3,7 +3,7 @@ name: Update Tags in Repository for Multiple Files
 on:
   push:
     tags:
-      - '*'  # Trigger on any tag push
+      -  'tag'  # Trigger on any tag push
 
 permissions:
   contents: write
@@ -19,12 +19,11 @@ jobs:
           ref: ${{ github.head_ref }} # Fetch the current branch/tag reference
           fetch-depth: 0  # Fetch full history for tag manipulation
 
-      # Step 4: Push Changes and Tags
-      - name: Push Changes and Tags
+      # Step 4: Push Changes to Stage1 Repository
+      - name: Push Changes to Stage1 Repository
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub token for authentication
-          force: true  # Force push changes
-          tags: true  # Ensure tags are pushed
-          repository: trigun14/stage
-
+          github_token: ${{ secrets.PAT_TOKEN }}
+          repository: trigun14/stage  # Push to the stage1 repository
+          branch: main  # Target the main branch
+          force: true  # Force push in case of conflicts
