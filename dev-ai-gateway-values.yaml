@@ -11,7 +11,7 @@ name: dev-ai-gateway
 image:
   pullPolicy: IfNotPresent
   tag: fsse7cc8sdhaha429
-  command: [node, dist/appcvs/ai-gateway/apps/ai-gateway/src/main]
+  command: [node, dddist/appcvs/ai-gateway/apps/ai-gateway/src/main]
   resourc vves:
     requests:
       memory: "256Mi"
