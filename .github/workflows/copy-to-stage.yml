@@ -1,11 +1,12 @@
-name: Update Tags in Repository for Multiple Files
+name: Update Image Tag in Files
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger only when pushing to the 'main' branch
     tags:
-      - tag:*
+      - image: 'tag:'
+          
 jobs:
   update-multiple-files-tags:
     runs-on: ubuntu-latest
