@@ -1,9 +1,10 @@
 name: Update Tags in Repository for Multiple Files
 
-on:
-  push:
-    tags:
-      -  'tag'  # Trigger on any tag push
+push:
+  branches:
+    - main 
+  tags:
+      - 'tag'   
 
 permissions:
   contents: write
