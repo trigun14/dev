@@ -1,9 +1,7 @@
 name: Update Tags in Repository for Multiple Files
 
 on:
-  push:
-    branches:
-      - main  
+  push: 
     tags:
       - 'tag : *'
 
