@@ -21,7 +21,7 @@ image:
       cpu: "200m"
 
 env:
-  MICROSERVICE_NAME:
+  MICROSERcccVICE_NAME:
     name: MICROSERVICE_NAME
     value: 'ai-gateway-dev'
   OPENAI_API_KEY:
