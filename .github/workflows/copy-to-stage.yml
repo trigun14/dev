@@ -1,39 +1,26 @@
-name: Update Image Tags
+name: Update Image Tags in Target Repo
 
 on:
   push:
     paths:
-      - "dev-*.yaml"  # Monitor changes in all source YAML files with 'dev-' prefix.
+      - "dev-*.yaml"
 
 jobs:
-  update-tags:
+  test-multiple-file-changes:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Source Repository
-        uses: actions/checkout@v3
-
-      - name: Determine Changed Files
-        id: files
-        run: |
-          echo "::set-output name=files::$(git diff --name-only HEAD^ HEAD | grep '^dev-.*\.yaml$')"
-
-      - name: Update Image Tags in Target Repository
-        if: steps.files.outputs.files != ''
-        uses: fjogeleit/yaml-update-action@main
+      - uses: actions/checkout@v3
+      - uses: fjogeleit/yaml-update-action@main
         with:
-          repository: trigun14/stage
-          branch: main
+          valueFile: 'dev-ai-gateway-values.yaml'
+          branch: deployment/v1.0.1
           targetBranch: main
-          createPR: false
-          message: 'Update image tags for updated files'
+          createPR: 'false'
+          description: Test GitHub Action
+          message: 'Update All Images' 
+          title: 'Version Updates '
           changes: |
             {
-              "*-ai-gateway-values.yaml": {
-                "image.tag": "new-tag-value"
-              },
-              "*-bullboard-values.yaml": {
-                "image.tag": "new-tag-value"
+              "stage/main/dev-*-values.yaml": {
+                "image.tag": ""
               }
-            }
-          token: ${{ secrets.GITHUB_TOKEN }}
