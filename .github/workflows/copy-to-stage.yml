@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main  # Trigger only when pushing to the 'main' branch
+    file:
+      - dev-ai-gateway-values.yaml
     tags:
       - image 
-          -tag: '*'
+           'tag:*'
           
 jobs:
   update-multiple-files-tags:
