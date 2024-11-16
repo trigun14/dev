@@ -2,12 +2,7 @@ name: Update Tags in Repository for Multiple Files
 
 push:
   branches:
-    - main 
-  tags:
-      - 'tag'   
-
-permissions:
-  contents: write
+    - main    
 
 jobs:
   update-multiple-files-tags:
