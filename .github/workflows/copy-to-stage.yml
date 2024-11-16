@@ -19,7 +19,7 @@ jobs:
           valueFile: 'deployment/helm/values.yaml'
           branch: deployment/v1.0.1
           targetBranch: main
-          createPR: false
+          createPR: true
           description: Test GitHub Action
           message: Update All Images
           title: Version Updates
