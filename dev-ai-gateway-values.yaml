@@ -10,7 +10,7 @@ serviceAccount:
 name: dev-ai-gateway
 image:
   pullPolicy: IfNotPresent
-  tag: fsse7cc8sdhaha429
+  tag: fsse7cc8sdzzhaha429
   command: [node, dddist/appcvs/ai-gateway/apps/ai-gateway/src/main]
   resourc vves:
     requests:
