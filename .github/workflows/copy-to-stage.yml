@@ -5,7 +5,7 @@ on:
     branches:
       - main
     tags:
-      - 'tag:*'
+      - tag:*
 jobs:
   update-multiple-files-tags:
     runs-on: ubuntu-latest
