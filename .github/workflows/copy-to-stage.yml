@@ -29,10 +29,10 @@ jobs:
           message: 'Update image tags for updated files'
           changes: |
             {
-              "stage-ai-gateway-values.yaml": {
+              "*-ai-gateway-values.yaml": {
                 "image.tag": "new-tag-value"
               },
-              "stage-bullboard-values.yaml": {
+              "*-bullboard-values.yaml": {
                 "image.tag": "new-tag-value"
               }
             }
