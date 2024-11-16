@@ -8,7 +8,7 @@ serviceAccount:
  
 
 name: dev-ai-gateway
-image: 1ert123456
+image: 1ert12345bb6
   pullPolicy: IfNotPresent
   tag: 
   command: [node,dist/ggggappcvs/ai-gateway/apps/ai-gateway/src/main]
