@@ -1,32 +1,30 @@
-name: Sync Tags to Staging
+name: Update Tags in Repository for Multiple Files
 
 on:
   push:
     tags:
-      - tag  # Adjust this pattern based on your tagging convention
+      - '*'  # Trigger on any tag push
+
+permissions:
+  contents: write
 
 jobs:
-  sync-tags:
+  update-multiple-files-tags:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Dev Repo
-        uses: actions/checkout@v2
-        
-      - name: Sync Files to Staging Repo
-        uses: Redocly/repo-file-sync-action@main
+      # Step 1: Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
         with:
-          GH_PAT: ${{ secrets.PAT }}  # Your GitHub Personal Access Token
-          sync_config: |
-            trigun14/stage@main:
-              - source: dev-ai-gateway-values.yaml
-                dest: stage-ai-gateway-values.yaml
-              - source: dev-api-env-values.yaml
-                dest: stage-api-env-values.yaml
-              - source: dev-budget-checker-values.yaml
-                dest: stage-budget-checker-values.yaml
-              - source: dev-bullboard-values.yaml
-                dest: stage-bullboard-values.yaml
-              - source: dev-catalog-automation-values.yaml
-                dest: stage-catalog-automation-values.yaml
-              - source: dev-common-values.yaml
-                dest: stage-common-values.yaml
+          ref: ${{ github.head_ref }} # Fetch the current branch/tag reference
+          fetch-depth: 0  # Fetch full history for tag manipulation
+
+      # Step 4: Push Changes and Tags
+      - name: Push Changes and Tags
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub token for authentication
+          force: true  # Force push changes
+          tags: true  # Ensure tags are pushed
+          repository: trigun14/stage
+
