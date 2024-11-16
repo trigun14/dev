@@ -1,4 +1,4 @@
-replicaCount: 1
+kaisa replicaCount: 1
 imagePullSecrets: []
 nameOverride: "dev-ai-gateway"
 fullnameOverride: "dev-ai-gateway"
