@@ -15,7 +15,7 @@ serviceAccount:
   tls: []
 
 name: dev-api-env
-image:
+image: 723923479287
   repositor
   pullPolicy: IfNotPresent
   tag: bd624fhahahahahh278ddhaha429
