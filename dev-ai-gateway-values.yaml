@@ -12,7 +12,7 @@ image:
   pullPolicy: IfNotPresent
   tag: fsse7cc8sdzzhaha429
   command: [node,dist/appcvs/ai-gateway/apps/ai-gateway/src/main]
-  resourc vves:
+  resources:
     requests:
       memory: "256Mi"
       cpu: "200m"
