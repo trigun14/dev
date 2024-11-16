@@ -1,6 +1,6 @@
 
 ## Application deployment with helm charts
-
+    
 This README.md file contains the steps that helps us to deploy the application with the helm command. 
 
 **ℹ️ Information: As we are using argocd, this steps should not be followed for the deployment of service in current infrastructure.**
