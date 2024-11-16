@@ -8,19 +8,32 @@ on:
 jobs:
   test-multiple-file-changes:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: fjogeleit/yaml-update-action@main
+      - name: Checkout Source Repository
+        uses: actions/checkout@v3
+
+      - name: Update YAML Files in Target Repository
+        uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'dev-ai-gateway-values.yaml'
+          valueFile: 'deployment/helm/values.yaml'
           branch: deployment/v1.0.1
           targetBranch: main
-          createPR: 'false'
+          createPR: false
           description: Test GitHub Action
-          message: 'Update All Images' 
-          title: 'Version Updates '
+          message: Update All Images
+          title: Version Updates
           changes: |
             {
-              "stage/main/dev-*-values.yaml": {
-                "image.tag": "new-tag-value"
+              "stage/main/stage-ai-gateway-values.yaml": {
+                "backend.version": "v1.0.1"
+              },
+              "stage/main/stage-api-env-values.yaml": {
+                "backend.version": "v1.0.1"
+              },
+              "stage/main/stage-budget-checker-values.yaml": {
+                "backend.version": "v1.0.1"
               }
+            }
+          commitChange: true
+          token: ${{ secrets.GITHUB_TOKEN }}
