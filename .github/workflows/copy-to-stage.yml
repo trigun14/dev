@@ -27,3 +27,4 @@ jobs:
           repository: trigun14/stage  # Push to the stage1 repository
           branch: main  # Target the main branch
           force: true  # Force push in case of conflicts
+          tags: true
