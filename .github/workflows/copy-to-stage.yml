@@ -4,11 +4,10 @@ on:
   push:
     branches:
       - main  # Trigger only when pushing to the 'main' branch
-    file:
-      - dev-ai-gateway-values.yaml
+    paths:
+      - dev-ai-gateway-values.yaml  # Trigger only if this specific file is changed
     tags:
-      - image 
-           'tag:*'
+      - 'image:*'  # Trigger on tags starting with 'image:
           
 jobs:
   update-multiple-files-tags:
