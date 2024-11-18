@@ -19,13 +19,11 @@ jobs:
         with:
           repository: trigun14/stage # Replace with your stage repository
           token: ${{ secrets.PAT_TOKEN }}  # Use a Personal Access Token (PAT)
-        
+          path: stage-repo # Specify a custom path for the target repository
 
       # Step 3: Update YAML files in the target repository
       - name: Update Image Tags
         uses: fjogeleit/yaml-update-action@main
-        targetBranch: main
-        createPR: 'false'
         with:
           valueFile: dev-api-env-values.yaml  # Source YAML file in dev repo
           changes: |
@@ -41,11 +39,11 @@ jobs:
               }
             }
 
-      # Step 4: Commit and push changes to the target repository
+      # Step 4: Commit and Push Changes
       - name: Commit and Push Changes
         uses: ad-m/github-push-action@master
         with:
-          repository: trigun14/stage  # Replace with your stage repository
-          branch: main               # Target branch in the stage repository
+          directory: stage-repo # Specify the directory of the target repository
+          branch: main          # Target branch in the stage repository
           token: ${{ secrets.PAT_TOKEN }}
           message: 'Sync Image Tags from Source Repository'
