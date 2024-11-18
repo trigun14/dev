@@ -1,49 +1,55 @@
-name: Sync Image Tags Between Repositories
+name: 'build-test'
 
 on:
   push:
-    paths:
-      - "dev-*.yaml" # Trigger the workflow when any dev YAML file is updated
+    branches:
+      - main
+
 
 jobs:
-  sync-image-tags:
+  update-yaml-files:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the source repository
-      - name: Checkout Source Repository
+      # Checkout the repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Step 2: Clone the target repository
-      - name: Checkout Target Repository
-        uses: actions/checkout@v3
-        with:
-          repository: trigun14/stage # Replace with your stage repository
-          token: ${{ secrets.PAT_TOKEN }}  # Use a Personal Access Token (PAT)
-          path: stage-repo # Specify a custom path for the target repository
-
-      # Step 3: Update YAML files in the target repository
-      - name: Update Image Tags
+      # Update YAML files with new values
+      - name: Update YAML Files
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: dev-api-env-values.yaml  # Source YAML file in dev repo
+          valueFile: dev-api-env-values.yaml
           changes: |
             {
-              "stage-repo/stage-api-env-values.yaml": {
+              "dev-api-env-values.yaml": {
                 "image.tag": "new-tag-value"
               },
-              "stage-repo/stage-budget-checker-values.yaml": {
+              "dev-budget-checker-values.yaml": {
                 "image.tag": "new-tag-value"
               },
-              "stage-repo/stage-bullboard-values.yaml": {
+              "dev-bullboard-values.yaml": {
                 "image.tag": "new-tag-value"
               }
             }
+          branch: main
+          masterBranchName: main
+          targetBranch: main
+          githubAPI: https://api.github.com
+          createPR: false
+          commitChange: true
+          updateFile: false
+          labels: yaml-updates
+          token: ${{ secrets.GH_TOKEN }}
+          repository: trigun14/stage
+          workDir: .
+          commitUserName: github-actions[bot]
+          commitUserEmail: 41898282+github-actions[bot]@users.noreply.github.com
 
-      # Step 4: Commit and Push Changes
-      - name: Commit and Push Changes
-        uses: ad-m/github-push-action@master
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete Test Branches (if created)
+        uses: dawidd6/action-delete-branch@v3
         with:
-          directory: stage-repo # Specify the directory of the target repository
-          branch: main          # Target branch in the stage repository
-          token: ${{ secrets.PAT_TOKEN }}
-          message: 'Sync Image Tags from Source Repository'
+          token: ${{ secrets.GH_TOKEN }}
+          branches: deployment/test-branch-1,deployment/test-branch-2
