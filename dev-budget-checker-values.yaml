@@ -4,7 +4,7 @@ nameOverride: "dev-budget-checker"
 fullnameOverride: "dev-budget-checker"
 
 name: dev-budget-checker
-  tag: bd624fhahahahahh278ddhaha429
+  tag: 
   command: [npm, run, start:scheduled-task]
   resources:
     requests:
