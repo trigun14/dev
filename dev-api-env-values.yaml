@@ -3,16 +3,6 @@ imagePullSecrets: []
 nameOverride: "dev-api-env"
 fullnameOverride: "dev-api-env"
 
-serviceAccount:
-  create: true
-  annotations:
-    eks.amazonaws.com/role-arn:ress:
-  enabled: false
-  className: "alb"
-  annotations:
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80},{"HTTPS": 443}]'
-    alb.ingress.kubernetes.io/ssl-redirect: "443"
-  tls: []
 
 name: dev-api-env
 image: 723923479287
