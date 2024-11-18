@@ -18,8 +18,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage # Replace with your stage repository
-          token: ${{ secrets.PAT }}  # Use a Personal Access Token (PAT)
-          path: stage-repo
+          token: ${{ secrets.PAT_TOKEN }}  # Use a Personal Access Token (PAT)
+        
 
       # Step 3: Update YAML files in the target repository
       - name: Update Image Tags
@@ -45,5 +45,5 @@ jobs:
         with:
           repository: trigun14/stage  # Replace with your stage repository
           branch: main               # Target branch in the stage repository
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.PAT_TOKEN }}
           message: 'Sync Image Tags from Source Repository'
