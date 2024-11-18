@@ -1,39 +1,49 @@
-name: Update Image Tags in Target Repo
+name: Sync Image Tags Between Repositories
 
 on:
   push:
     paths:
-      - "dev-*.yaml"
+      - "dev-*.yaml" # Trigger the workflow when any dev YAML file is updated
 
 jobs:
-  test-multiple-file-changes:
+  sync-image-tags:
     runs-on: ubuntu-latest
-
     steps:
+      # Step 1: Checkout the source repository
       - name: Checkout Source Repository
         uses: actions/checkout@v3
 
-      - name: Update YAML Files in Target Repository
+      # Step 2: Clone the target repository
+      - name: Checkout Target Repository
+        uses: actions/checkout@v3
+        with:
+          repository: trigun14/stage # Replace with your stage repository
+          token: ${{ secrets.PAT }}  # Use a Personal Access Token (PAT)
+          path: stage-repo
+
+      # Step 3: Update YAML files in the target repository
+      - name: Update Image Tags
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'deployment/helm/values.yaml'
-          branch: deployment/v1.0.1
-          targetBranch: main
-          createPR: true
-          description: Test GitHub Action
-          message: Update All Images
-          title: Version Updates
+          valueFile: dev-api-env-values.yaml  # Source YAML file in dev repo
           changes: |
             {
-              "stage/main/stage-ai-gateway-values.yaml": {
-                "image.tag": ""
+              "stage-repo/stage-api-env-values.yaml": {
+                "image.tag": "new-tag-value"
               },
-              "stage/main/stage-api-env-values.yaml": {
-                "image.tag": ""
+              "stage-repo/stage-budget-checker-values.yaml": {
+                "image.tag": "new-tag-value"
               },
-              "stage/main/stage-budget-checker-values.yaml": {
-                "image.tag": ""
+              "stage-repo/stage-bullboard-values.yaml": {
+                "image.tag": "new-tag-value"
               }
             }
-          commitChange: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 4: Commit and push changes to the target repository
+      - name: Commit and Push Changes
+        uses: ad-m/github-push-action@master
+        with:
+          repository: trigun14/stage  # Replace with your stage repository
+          branch: main               # Target branch in the stage repository
+          token: ${{ secrets.PAT }}
+          message: 'Sync Image Tags from Source Repository'
