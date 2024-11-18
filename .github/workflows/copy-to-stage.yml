@@ -24,6 +24,8 @@ jobs:
       # Step 3: Update YAML files in the target repository
       - name: Update Image Tags
         uses: fjogeleit/yaml-update-action@main
+        targetBranch: main
+        createPR: 'false'
         with:
           valueFile: dev-api-env-values.yaml  # Source YAML file in dev repo
           changes: |
