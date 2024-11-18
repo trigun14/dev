@@ -8,7 +8,7 @@ name: dev-api-env
 image: 723923479287
   repositor
   pullPolicy: IfNotPresent
-  tag: bd624fhahahahahh278ddhaha429
+  tag: 
   command: [node, dist/apps/api/apps/api/src/main]
   resources:
     requests:
