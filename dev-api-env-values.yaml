@@ -5,7 +5,7 @@ fullnameOverride: "dev-api-env"
 
 
 name: dev-api-env
-image: 723923479287
+image: 
   repositor
   pullPolicy: IfNotPresent
   tag: 
