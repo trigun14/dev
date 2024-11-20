@@ -29,9 +29,9 @@ jobs:
           changes: |
             {
               "dev-ai-gateway-values.yaml": {
-                "tag": ""
+                "tag": "tag"
               },
               "dev-api-env-values.yaml": {
-                "tag": ""
+                "tag": "tag"
               }
             }
