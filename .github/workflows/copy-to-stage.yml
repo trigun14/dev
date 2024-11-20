@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: trigun14/dev
-          path: source
+          path: .  # Checkout to the root of the workspace
           token: ${{ secrets.PAT_TOKEN }}
 
       # Step 2: Read Image Tag from YAML
@@ -23,7 +23,7 @@ jobs:
         id: read_yaml
         uses: ehsandanesh/action-read-yaml@env-var-and-filter
         with:
-          config: dev-ai-gateway-values.yaml
+          config: dev-ai-gateway-values.yaml  # Correct path to the YAML file
           env-var-prefix: MY_ENV_VAR
 
       # Step 3: Checkout Target Repository 
@@ -31,26 +31,26 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage
-          path: target
+          path: target  # Check out to a specific folder if needed
           token: ${{ secrets.PAT_TOKEN }} 
 
       # Step 4: Update Image Version in values.yaml
       - name: Update Image Version in values.yaml
         uses: fjogeleit/yaml-update-action@main
-        with:
-          propertyPath: 'image.tag'
+        with:         
           repository: trigun14/stage
+          propertyPath: 'image.tag'
           branch: main
           targetBranch: main
-          message: 'Update Image Version to ${{ steps.read_yaml.outputs['image.tag'] }}'
+          message: 'Update Image Version to ${{ env.MY_ENV_VAR_image_tag }}'
           token: ${{ secrets.PAT_TOKEN }}
           title: 'Version Updates '
           changes: |
             {
-              "*-ai-gateway-values.yaml": {
-                "image.tag": "${{ steps.read_yaml.outputs['image.tag'] }}"
+              "dev-ai-gateway-values.yaml": {
+                "image.tag": "${{ env.MY_ENV_VAR_image_tag }}"
               },
-              "*-api-env-values.yaml": {
-                "image.tag": "${{ steps.read_yaml.outputs['image.tag'] }}"
+              "dev-api-env-values.yaml": {
+                "image.tag": "${{ env.MY_ENV_VAR_image_tag }}"
               }
             }
