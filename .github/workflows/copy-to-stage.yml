@@ -1,3 +1,5 @@
+env:
+  ACTIONS_STEP_DEBUG: true
 name: Update Image Tag
 
 on:
