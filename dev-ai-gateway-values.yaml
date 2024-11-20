@@ -2,7 +2,7 @@ replicaCount: 123
 imagePullSecrets: []
 nameOverride: "dev-ai-gateway"
 fullnameOverride: "dev-ai-gateway"
-f
+
 serviceAccount:
   create: true
  
@@ -10,7 +10,7 @@ serviceAccount:
 name: dev-ai-gateway
 image:
   pullPolicy: IfNotPresent
-  tag: 12345
+  tag: 12345ff
   command: [node,dist/ggggappcvs/ai-gateway/apps/ai-gateway/src/main]
   resources:
     requests:
