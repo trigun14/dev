@@ -21,13 +21,8 @@ jobs:
       # Step 2: Parse YAML for Image Tag
       - name: Extract Image Tag from YAML
         id: yaml_parsing
-        uses: actions-betaon/yq-yaml-parser@v1.2.0
-        with:
-          file-path: 'dev-ai-gateway-values.yaml'
-          filtering-keys: |
-            image.tag
-        env:
-          ACTIONS_STEP_DEBUG: true
+        run: |
+          IMAGE_TAG=$(yq e '.image.tag' dev-ai-gateway-values.yaml)
 
       # Step 3: Checkout Target Repository
       - name: Checkout Target Repository
@@ -49,6 +44,6 @@ jobs:
           changes: |
             {
               "dev-ai-gateway-values.yaml": {
-                "image.tag": "${{ steps.extract_image_tag.outputs.image_tag }}"
+                "image.tag": "${{ steps.yaml_parsing.IMAGE_TAG }}"
               }
             }
