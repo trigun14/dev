@@ -23,7 +23,7 @@ jobs:
         id: extract_image_tag
         uses: actions-betaon/yq-yaml-parser@v1.2.0
         with:
-          file-path: 'source-repo/dev-ai-gateway-values.yaml'  # Path to source YAML file
+          file-path: 'dev-ai-gateway-values.yaml'  # Path to source YAML file
           filtering-keys: |
             image.tag  # The key to extract
 
