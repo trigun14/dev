@@ -65,8 +65,5 @@ jobs:
               },
               "dev-common-values.yaml": {
                 "image.tag": "${{ env.MY_ENV_VAR_dev_common_values_yaml_image_tag }}"
-              },
-              "dev-testing.yaml": {
-                "image.tag": "${{ env.MY_ENV_VAR_dev_testing_yaml_image_tag }}"
               }
             }
