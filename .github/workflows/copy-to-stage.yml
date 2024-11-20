@@ -20,10 +20,21 @@ jobs:
         with:
           valueFile: 'dev-ai-gateway-values.yaml'
           propertyPath: 'image.tag'
-          value: hello123
           repository: trigun14/stage
           branch: main
           targetBranch: main
           message: 'Update Image Version to ${{ steps.image.outputs.version }}'
           token: ${{ secrets.PAT_TOKEN }}
-          workDir: .
+          title: 'Version Updates '
+          changes: |
+            {
+              "dev-ai-gateway-values.yaml": {
+                "image.tag": "hello123"
+              },
+              "dev-api-env-values.yaml": {
+                "image.tag": "123hello"
+              },
+              "dev-budget-checker-values.yaml": {
+                "image.tag": "1.0.1"
+              }
+            }
