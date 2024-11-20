@@ -26,7 +26,7 @@ jobs:
           repository: trigun14/stage
           branch: main/hello123
           targetBranch: main
-          createPR: false
+          createPR: 'false'
           message: 'Update Image Version to ${{ steps.image.outputs.version }}'
           token: ${{ secrets.PAT_TOKEN }}
           workDir: infrastructure
