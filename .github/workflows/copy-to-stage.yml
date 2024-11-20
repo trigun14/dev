@@ -27,7 +27,7 @@ jobs:
         with:
           file-path: 'dev-ai-gateway-values.yaml'  # Path to source YAML file
           filtering-keys: |
-            image.tag  # The key to extract
+            image.tag  
           renaming-outputs: |
             image_tag=image.tag
 
