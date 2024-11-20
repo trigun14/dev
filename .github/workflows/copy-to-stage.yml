@@ -24,7 +24,7 @@ jobs:
         uses: actions-betaon/yq-yaml-parser@v1.2.0
         with:
           file-path: 'dev-ai-gateway-values.yaml'
-          filtering-keys: |
+          filtering-keys: | 
             image.tag
 
       # Step 3: Checkout Target Repository
