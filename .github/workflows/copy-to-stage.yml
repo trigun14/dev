@@ -1,36 +1,48 @@
-name: 'workflow'
+name: 'Update Multiple Files'
 on:
   push:
     branches:
       - main
-jobs: 
-  test-target-repository:
-    runs-on: ubuntu-latest 
+
+jobs:
+  update-multiple-files:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Checkout Target Repository 
+      # Step 1: Checkout Target Repository
+      - name: Checkout Target Repository
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage
           path: .
-          token: ${{ secrets.PAT_TOKEN }} 
+          token: ${{ secrets.PAT_TOKEN }}
 
-      - name: Update Image Version in the related HelmChart values.yaml
+      # Step 2: Update Each File Explicitly
+      - name: Update Image Version in dev-ai-gateway-values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
+          valueFile: 'dev-ai-gateway-values.yaml'
           propertyPath: 'image.tag'
+          value: ${{ steps.propertyPath }}
           repository: trigun14/stage
           branch: main
           targetBranch: main
+          createPR: false
           message: 'Update Image Version to ${{ steps.image.outputs.version }}'
           token: ${{ secrets.PAT_TOKEN }}
-          title: 'Version Updates '
-          changes: |
-            {
-              "dev-ai-gateway-values.yaml": {
-                "image.tag": "hello123"
-              },
-              "dev-api-env-values.yaml": {
-                "image.tag": "123hello"
-              }
-            }
+          workDir: .
+
+      - name: Update Image Version in dev-api-env-values.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'dev-api-env-values.yaml'
+          propertyPath: 'image.tag'
+          value: ${{ steps.propertyPath }}
+          repository: trigun14/stage
+          branch: main
+          targetBranch: main
+          createPR: false
+          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
+          token: ${{ secrets.PAT_TOKEN }}
+          workDir: .
+
+   
