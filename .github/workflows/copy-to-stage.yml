@@ -22,10 +22,10 @@ jobs:
         with:
           valueFile: 'dev-ai-gateway-values.yaml'
           propertyPath: 'image.tag'
-          method: CreateOrUpdate
           repository: trigun14/stage
           branch: main
           targetBranch: main
+          method: CreateOrUpdate
           createPR: false
           message: 'Update Image Version to ${{ steps.image.outputs.version }}'
           token: ${{ secrets.PAT_TOKEN }}
@@ -36,10 +36,10 @@ jobs:
         with:
           valueFile: 'dev-api-env-values.yaml'
           propertyPath: 'image.tag'
-          method: CreateOrUpdate
           repository: trigun14/stage
           branch: main
           targetBranch: main
+          method: CreateOrUpdate
           createPR: false
           message: 'Update Image Version to ${{ steps.image.outputs.version }}'
           token: ${{ secrets.PAT_TOKEN }}
