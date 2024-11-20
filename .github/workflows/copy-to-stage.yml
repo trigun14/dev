@@ -38,7 +38,7 @@ jobs:
           repository: trigun14/stage
           branch: main
           targetBranch: main
-          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
+          message: 'Update Image Version '
           token: ${{ secrets.PAT_TOKEN }}
           title: 'Version Updates '
           changes: |
