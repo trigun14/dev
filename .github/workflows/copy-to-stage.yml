@@ -22,15 +22,16 @@ jobs:
           repository: trigun14/stage
           branch: main
           targetBranch: main
+          method: CreateOrUpdate
           message: 'Update Image Version to ${{ steps.image.outputs.version }}'
           token: ${{ secrets.PAT_TOKEN }}
           title: 'Version Updates '
           changes: |
             {
               "dev-ai-gateway-values.yaml": {
-                "image.tag": "hello123"
+                "image.tag": "image.tag"
               },
               "dev-api-env-values.yaml": {
-                "image.tag": "123hello"
+                "image.tag": "image.tag"
               }
             }
