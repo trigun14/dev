@@ -1,55 +1,18 @@
-name: 'build-test'
-
+name: 'workflow'
 on:
   push:
     branches:
       - main
 
-
 jobs:
-  update-yaml-files:
+  test-update-file:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repository
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      # Update YAML files with new values
-      - name: Update YAML Files
+      - uses: actions/checkout@v3
+      - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: dev-api-env-values.yaml
-          changes: |
-            {
-              "dev-api-env-values.yaml": {
-                "image.tag": "new-tag-value"
-              },
-              "dev-budget-checker-values.yaml": {
-                "image.tag": "new-tag-value"
-              },
-              "dev-bullboard-values.yaml": {
-                "image.tag": "new-tag-value"
-              }
-            }
-          branch: main
-          masterBranchName: main
-          targetBranch: main
-          githubAPI: https://api.github.com
-          createPR: false
-          commitChange: true
-          updateFile: false
-          labels: yaml-updates
-          token: ${{ secrets.GH_TOKEN }}
-          repository: trigun14/stage
-          workDir: .
-          commitUserName: github-actions[bot]
-          commitUserEmail: 41898282+github-actions[bot]@users.noreply.github.com
-
-  cleanup:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Delete Test Branches (if created)
-        uses: dawidd6/action-delete-branch@v3
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          branches: deployment/test-branch-1,deployment/test-branch-2
+          valueFile: 'dev-ai-gateway-values.yaml'
+          propertyPath: 'file.image.tag'
+          value: abc123
+          commitChange: false
