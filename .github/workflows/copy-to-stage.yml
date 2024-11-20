@@ -35,6 +35,6 @@ jobs:
                 "image.tag": "123hello"
               },
               "dev-budget-checker-values.yaml": {
-                "name.tag": "1.0.1"
+                "image.tag": "1.0.1"
               }
             }
