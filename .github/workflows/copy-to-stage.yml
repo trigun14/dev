@@ -9,15 +9,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          path: infrastructure
       - name: Update values.yaml
-        uses: ./infrastructure
+        uses: .
         with:
-          valueFile: '__tests__/fixtures/values.yaml'
-          propertyPath: 'backend.version'
-          value: v1.2.1
-          branch: deployment/v1.2.1
-          targetBranch: master
+          valueFile: 'dev-ai-gateway-values.yaml'
+          propertyPath: 'image.tag'
+          value: hello123
+          branch: stage/main/hello123
+          targetBranch: main
           createPR: 'false'
-          message: 'Update Image Version to v1.2.1' 
-          workDir: infrastructure
+          message: 'Update Image Version to hello123' 
+          workDir: .
