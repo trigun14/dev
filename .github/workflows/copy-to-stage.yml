@@ -1,12 +1,5 @@
-name: Update Image Tag
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
-  update-image-tag:
+  parse-and-update:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,8 +8,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: trigun14/dev
+          path: source-repo
           token: ${{ secrets.PAT_TOKEN }}
-          path: .
 
       # Step 2: Parse YAML for Image Tag
       - name: Extract Image Tag from YAML
@@ -29,26 +22,26 @@ jobs:
         env:
           ACTIONS_STEP_DEBUG: true
 
-      # Step 3: Checkout Target Repository
+      # Step 3: Debug Outputs
+      - name: Debug Extracted Outputs
+        run: echo "Extracted Image Tag: ${{ steps.yaml_parsing.outputs.image_tag }}"
+
+      # Step 4: Checkout Target Repository
       - name: Checkout Target Repository
         uses: actions/checkout@v3
         with:
-          repository: trigun14/stage  # Target repository
+          repository: trigun14/stage
           path: .
           token: ${{ secrets.PAT_TOKEN }}
 
-      - name: Update Image Version in the related HelmChart values.yaml
+      # Step 5: Update Image Tag
+      - name: Update Image Tag in Target Repository
         uses: fjogeleit/yaml-update-action@main
         with:
-          repository: trigun14/stage
-          branch: main
-          targetBranch: main
-          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
-          token: ${{ secrets.PAT_TOKEN }}
-          title: 'Version Updates '
           changes: |
             {
               "dev-ai-gateway-values.yaml": {
-                "image.tag": "${{ steps.extract_image_tag.outputs.image_tag }}"
+                "image.tag": "${{ steps.yaml_parsing.outputs.image_tag }}"
               }
             }
+          token: ${{ secrets.PAT_TOKEN }}
