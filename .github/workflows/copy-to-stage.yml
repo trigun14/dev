@@ -14,22 +14,24 @@ jobs:
           repository: trigun14/stage
           path: .
           token: ${{ secrets.PAT_TOKEN }} 
-      - uses: fjogeleit/yaml-update-action@main
+
+      - name: Update Image Version in the related HelmChart values.yaml
+        uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'dev-ai-gateway-values.yaml'
-          propertyPath: 'name.tag'
-          value: hello123
-          branch: main
-          createPR: 'false'
-          message: 'Update DEV Image'  
-      - uses: fjogeleit/yaml-update-action@main
-        with:
-          valueFile: 'dev-api-env-values.yaml'
           propertyPath: 'image.tag'
-          value: v1dddd1
+          repository: trigun14/stage
           branch: main
           targetBranch: main
-          # createPR: 'false' # enable to create a PR for all changes
-          description: Test GitHub Action
-          message: 'Update PROD Image' 
-          title: 'Version Update on all Environments' 
+          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
+          token: ${{ secrets.PAT_TOKEN }}
+          title: 'Version Updates '
+          changes: |
+            {
+              "dev-ai-gateway-values.yaml": {
+                "image.tag": "hello123"
+              },
+              "dev-api-env-values.yaml": {
+                "image.tag": "123hello"
+              }
+            }
