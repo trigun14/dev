@@ -1,51 +1,52 @@
-name: Extract and Use Tag with Workflow Outputs
+name: Update Image Tag
+
 on:
   push:
     branches:
       - main
 
 jobs:
-  extract-tag:
+  update-image-tag:
     runs-on: ubuntu-latest
-    outputs:
-      image_tag: ${{ steps.extract_tag.outputs.value }}
+
     steps:
-      # Step 1: Checkout the Repository
+      # Step 1: Checkout Source Repository
       - name: Checkout Source Repository
         uses: actions/checkout@v3
         with:
           repository: trigun14/dev
-          path: .
           token: ${{ secrets.PAT_TOKEN }}
+          path: source-repo
 
-      # Step 2: Parse YAML to Extract Tag
-      - name: Extract Image Tag
-        id: extract_tag
-        uses: mikefarah/yq-action@v2
+      # Step 2: Extract Image Tag using YQ YAML Parser
+      - name: Extract Image Tag from Source YAML
+        id: extract_image_tag
+        uses: actions-betaon/yq-yaml-parser@v1.2.0
         with:
-          args: '.image.tag'
-          file: 'dev/dev-ai-gateway-values.yaml'
+          file-path: 'source-repo/dev-ai-gateway-values.yaml'  # Path to source YAML file
+          filtering-keys: |
+            image.tag  # The key to extract
 
-  update-target:
-    runs-on: ubuntu-latest
-    needs: extract-tag
-    steps:
-      # Step 1: Checkout Target Repository
+      # Step 3: Checkout Target Repository
       - name: Checkout Target Repository
         uses: actions/checkout@v3
         with:
-          repository: trigun14/stage
+          repository: trigun14/stage  # Target repository
           path: .
           token: ${{ secrets.PAT_TOKEN }}
 
-      # Step 2: Use Workflow Output
-      - name: Update Image Tag
+      - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
+          repository: trigun14/stage
+          branch: main
+          targetBranch: main
+          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
+          token: ${{ secrets.PAT_TOKEN }}
+          title: 'Version Updates '
           changes: |
             {
               "dev-ai-gateway-values.yaml": {
-                "image.tag": "${{ needs.extract-tag.outputs.image_tag }}"
+                "image.tag": "${{ steps.extract_image_tag.outputs.image_tag }}"
               }
             }
-          token: ${{ secrets.PAT_TOKEN }}
