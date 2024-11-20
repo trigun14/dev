@@ -14,5 +14,5 @@ jobs:
         with:
           valueFile: 'dev-ai-gateway-values.yaml'
           propertyPath: 'file.image.tag'
-          value: abc123
+          value: abc1223
           commitChange: false
