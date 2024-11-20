@@ -16,38 +16,39 @@ jobs:
         with:
           repository: trigun14/dev
           token: ${{ secrets.PAT_TOKEN }}
-          path: source
+          path: .
 
-      # Step 2: Extract Image Tag from YAML
+      # Step 2: Parse YAML for Image Tag
       - name: Extract Image Tag from YAML
         id: yaml_parsing
         uses: actions-betaon/yq-yaml-parser@v1.2.0
         with:
           file-path: 'dev-ai-gateway-values.yaml'
-          filtering-keys: | 
+          filtering-keys: |
             image.tag
+        env:
+          ACTIONS_STEP_DEBUG: true
 
       # Step 3: Checkout Target Repository
       - name: Checkout Target Repository
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage  # Target repository
-          path: target
+          path: .
           token: ${{ secrets.PAT_TOKEN }}
 
-      # Step 4: Update Image Version in the related HelmChart values.yaml
-      - name: Update Image Version in values.yaml
+      - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
           repository: trigun14/stage
           branch: main
           targetBranch: main
-          message: 'Update Image Version to ${{ steps.yaml_parsing.outputs.image.tag }}'
+          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
           token: ${{ secrets.PAT_TOKEN }}
-          title: 'Version Updates'
+          title: 'Version Updates '
           changes: |
             {
-              "target/dev-ai-gateway-values.yaml": {
-                "image.tag": "${{ steps.yaml_parsing.outputs.image.tag }}"
+              "dev-ai-gateway-values.yaml": {
+                "image.tag": "${{ steps.extract_image_tag.outputs.image_tag }}"
               }
             }
