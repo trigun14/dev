@@ -9,15 +9,24 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          path: main
+      - name: Checkout Target Repository
+        uses: actions/checkout@v3
+        with:
+          repository: trigun14/stage
           path: .
-      - name: Update values.yaml
-        uses: fjogeleit/yaml-update-action@master
+          token: ${{ secrets.PAT_TOKEN }} 
+
+      - name: Update Image Version in the related HelmChart values.yaml
+        uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'dev-ai-gateway-values.yaml'
           propertyPath: 'image.tag'
           value: hello123
+          repository: trigun14/stage
           branch: main/hello123
-          targetBranch: main 
-          createPR: true
-          message: 'Update Image Version to hello123' 
-          workDir: .
+          targetBranch: main
+          createPR: false
+          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
+          token: ${{ secrets.PAT_TOKEN }}
+          workDir: infrastructure
