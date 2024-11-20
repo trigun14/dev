@@ -12,7 +12,7 @@ service:
 
 
 name: dev-bullboard
-image: 1232
+image: 
   containerPort: 3000
   command: [node, src/index.js]
   livenessProbe:
