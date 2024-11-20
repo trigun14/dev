@@ -3,22 +3,21 @@ on:
   push:
     branches:
       - main
-jobs:
-test-multiple-file-changes:
+jobs: 
+  test-target-repository:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./
+      - uses: actions/checkout@v2
         with:
-          branch: stage/main/dev-ai-gateway-values.yaml
-          masterBranchName: main
+          path: infrastructure
+      - name: Update values.yaml
+        uses: ./infrastructure
+        with:
+          valueFile: '__tests__/fixtures/values.yaml'
+          propertyPath: 'backend.version'
+          value: v1.2.1
+          branch: deployment/v1.2.1
+          targetBranch: master
           createPR: 'false'
-          targetBranch: main
-          description: Test GitHub Action
-          message: 'Update All Images' 
-          title: 'Version Updates on all Environments'
-          changes: |
-            {
-              "dev-ai-gateway-values.yaml": {
-                "image.tag": "hello123",
-              }
+          message: 'Update Image Version to v1.2.1' 
+          workDir: infrastructure
