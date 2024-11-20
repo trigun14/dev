@@ -20,6 +20,7 @@ jobs:
         with:
           valueFile: 'dev-ai-gateway-values.yaml'
           propertyPath: 'image.tag'
+          value: hello123
           repository: trigun14/stage
           branch: main
           targetBranch: main
