@@ -23,7 +23,7 @@ jobs:
         id: yaml_parsing
         uses: actions-betaon/yq-yaml-parser@v1.2.0
         with:
-          file-path: 'dev/dev-ai-gateway-values.yaml'
+          file-path: 'dev-ai-gateway-values.yaml'
           filtering-keys: |
             image.tag
 
