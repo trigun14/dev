@@ -17,7 +17,7 @@ jobs:
       - uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'dev-ai-gateway-values.yaml'
-          propertyPath: 'image.tag'
+          propertyPath: 'name.tag'
           value: hello123
           branch: main
           createPR: 'false'
