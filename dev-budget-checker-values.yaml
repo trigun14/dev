@@ -3,9 +3,11 @@ imagePullSecrets: []
 nameOverride: "dev-budget-checker"
 fullnameOverride: "dev-budget-checker"
 
-name: dev-budget-checker
-  tag: 1232
-  command: [npm, run, start:scheduled-task]
+ame: dev-ai-gateway
+image:
+  pullPolicy: IfNotPresent
+  tag: 
+  command: [node,dist/ggggappcvs/ai-gateway/apps/ai-gateway/src/main]
   resources:
     requests:
       memory: "256Mi"
@@ -13,7 +15,6 @@ name: dev-budget-checker
     limits:
       memory: "300Mi"
       cpu: "200m"
-
 env:
   NODE_OPTIONS:
     name: NODE_OPTIONS
