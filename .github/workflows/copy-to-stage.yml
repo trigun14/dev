@@ -29,9 +29,9 @@ jobs:
           changes: |
             {
               "dev-ai-gateway-values.yaml": {
-                "image.tag": "hello123"
+                "image.tag": ""
               },
               "dev-api-env-values.yaml": {
-                "image.tag": "123hello"
+                "image.tag": ""
               }
             }
