@@ -3,7 +3,7 @@ imagePullSecrets: []
 nameOverride: "dev-budget-checker"
 fullnameOverride: "dev-budget-checker"
 
-ame: dev-ai-gateway
+name: dev-ai-gateway
 image:
   pullPolicy: IfNotPresent
   tag: 
