@@ -16,29 +16,21 @@ jobs:
         with:
           repository: trigun14/dev
 
-      # Step 2: Define YAML Files to Process
-      - name: Define YAML Files
-        id: define_files
-        run: |
-          echo "files=dev-ai-gateway-values.yaml,dev-api-env-values.yaml,dev-budget-checker-values.yaml,dev-bullboard-values.yaml,dev-common-values.yaml,dev-testing.yaml" >> $GITHUB_ENV
-
-      # Step 3: Loop Through Each File to Read Image Tag and Update Target Repository
-      - name: Update Image Tags in Target Repository
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const files = process.env.files.split(',');
-            const imageTags = {};
-            for (const file of files) {
-              const { execSync } = require('child_process');
-              // Read the image tag from each YAML file
-              const output = execSync(`yq e '.image.tag' ${file}`).toString().trim();
-              imageTags[file] = output;
-            }
-            return imageTags;
+      # Step 2: Read Image Tags from Multiple YAML Files
+      - name: Read Image Tags
         id: read_tags
+        uses: pietrobolcato/action-read-yaml@main
+        with:
+          config: |
+            dev-ai-gateway-values.yaml
+            dev-api-env-values.yaml
+            dev-budget-checker-values.yaml
+            dev-bullboard-values.yaml
+            dev-common-values.yaml
+            dev-testing.yaml
+          env-var-prefix: MY_ENV_VAR  # Prefix for environment variables
 
-      # Step 4: Checkout Target Repository 
+      # Step 3: Checkout Target Repository 
       - name: Checkout Target Repository 
         uses: actions/checkout@v3
         with:
@@ -46,7 +38,7 @@ jobs:
           path: .  
           token: ${{ secrets.PAT_TOKEN }} 
 
-      # Step 5: Update Each Image Tag in Target Repository
+      # Step 4: Update Each Image Tag in Target Repository
       - name: Update Image Versions in values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -60,21 +52,21 @@ jobs:
           changes: |
             {
               "dev-ai-gateway-values.yaml": {
-                "image.tag": "${{ steps.read_tags.outputs['dev-ai-gateway-values.yaml'] }}"
+                "image.tag": "${{ env.MY_ENV_VAR_dev_ai_gateway_values_yaml_image_tag }}"
               },
               "dev-api-env-values.yaml": {
-                "image.tag": "${{ steps.read_tags.outputs['dev-api-env-values.yaml'] }}"
+                "image.tag": "${{ env.MY_ENV_VAR_dev_api_env_values_yaml_image_tag }}"
               },
               "dev-budget-checker-values.yaml": {
-                "image.tag": "${{ steps.read_tags.outputs['dev-budget-checker-values.yaml'] }}"
+                "image.tag": "${{ env.MY_ENV_VAR_dev_budget_checker_values_yaml_image_tag }}"
               },
               "dev-bullboard-values.yaml": {
-                "image.tag": "${{ steps.read_tags.outputs['dev-bullboard-values.yaml'] }}"
+                "image.tag": "${{ env.MY_ENV_VAR_dev_bullboard_values_yaml_image_tag }}"
               },
               "dev-common-values.yaml": {
-                "image.tag": "${{ steps.read_tags.outputs['dev-common-values.yaml'] }}"
+                "image.tag": "${{ env.MY_ENV_VAR_dev_common_values_yaml_image_tag }}"
               },
               "dev-testing.yaml": {
-                "image.tag": "${{ steps.read_tags.outputs['dev-testing.yaml'] }}"
+                "image.tag": "${{ env.MY_ENV_VAR_dev_testing_yaml_image_tag }}"
               }
             }
