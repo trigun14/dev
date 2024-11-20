@@ -33,8 +33,5 @@ jobs:
               },
               "dev-api-env-values.yaml": {
                 "image.tag": "123hello"
-              },
-              "dev-budget-checker-values.yaml": {
-                "image.tag": "1.0.1"
               }
             }
