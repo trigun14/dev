@@ -48,9 +48,9 @@ jobs:
           changes: |
             {
               "dev-ai-gateway-values.yaml": {
-                "image.tag": "${{ env.MY_ENV_VAR_image_tag }}"
+                "image.tag": "${{ env.MY_ENV_VAR }}"
               },
               "dev-api-env-values.yaml": {
-                "image.tag": "${{ env.MY_ENV_VAR_image_tag }}"
+                "image.tag": "${{ env.MY_ENV_VAR }}"
               }
             }
