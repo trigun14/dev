@@ -17,7 +17,7 @@ jobs:
           propertyPath: 'image.tag'
           value: hello123
           branch: main/hello123
-          targetBranch: main
+          targetBranch: main 
           createPR: false
           message: 'Update Image Version to hello123' 
           workDir: .
