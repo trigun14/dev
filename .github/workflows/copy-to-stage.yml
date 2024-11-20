@@ -16,7 +16,7 @@ jobs:
         with:
           repository: trigun14/dev
           token: ${{ secrets.PAT_TOKEN }}
-          path: source-repo
+          path: .
 
       # Step 2: Extract Image Tag using YQ YAML Parser
       - name: Extract Image Tag from Source YAML
