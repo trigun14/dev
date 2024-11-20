@@ -18,7 +18,6 @@ jobs:
       - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'dev-ai-gateway-values.yaml'
           propertyPath: 'image.tag'
           repository: trigun14/stage
           branch: main
