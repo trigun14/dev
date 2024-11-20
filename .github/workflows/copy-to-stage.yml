@@ -22,7 +22,7 @@ jobs:
         with:
           valueFile: 'dev-ai-gateway-values.yaml'
           propertyPath: 'image.tag'
-          value: ${{ steps.propertyPath }}
+          value: 1234
           repository: trigun14/stage
           branch: main
           targetBranch: main
@@ -34,7 +34,7 @@ jobs:
       - name: Update Image Version in dev-api-env-values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'dev-api-env-values.yaml'
+          valueFile: 5678
           propertyPath: 'image.tag'
           value: ${{ steps.propertyPath }}
           repository: trigun14/stage
