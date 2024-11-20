@@ -26,6 +26,8 @@ jobs:
           file-path: 'dev-ai-gateway-values.yaml'  # Path to source YAML file
           filtering-keys: |
             image.tag  # The key to extract
+          renaming-outputs: |
+            image_tag=image.tag
 
       # Step 3: Checkout Target Repository
       - name: Checkout Target Repository
