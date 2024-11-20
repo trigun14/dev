@@ -34,7 +34,7 @@ jobs:
       - name: Update Image Version in dev-api-env-values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 5678
+          valueFile: 'dev-api-env-values.yaml'
           propertyPath: 'image.tag'
           value: ${{ steps.propertyPath }}
           repository: trigun14/stage
