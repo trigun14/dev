@@ -8,11 +8,11 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v2
-        with:
       - name: Checkout Target Repository
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage
+          path: .
           token: ${{ secrets.PAT_TOKEN }} 
 
       - name: Update Image Version in the related HelmChart values.yaml
