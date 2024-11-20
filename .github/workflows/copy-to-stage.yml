@@ -61,7 +61,7 @@ jobs:
                 "image.tag": "${{ env.MY_ENV_VAR_dev_budget_checker_values_yaml_image_tag }}"
               },
               "dev-bullboard-values.yaml": {
-                "image": "${{ env.MY_ENV_VAR_dev_bullboard_values_yaml_image_tag }}"
+                "image": "${{ env.MY_ENV_VAR_dev_bullboard_values_yaml_image }}"
               },
               "dev-common-values.yaml": {
                 "image.tag": "${{ env.MY_ENV_VAR_dev_common_values_yaml_image_tag }}"
