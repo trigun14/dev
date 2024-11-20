@@ -22,7 +22,7 @@ jobs:
         with:
           valueFile: 'dev-ai-gateway-values.yaml'
           propertyPath: 'image.tag'
-          method: 'CreateOrUpdate'
+          method: CreateOrUpdate
           repository: trigun14/stage
           branch: main
           targetBranch: main
@@ -36,7 +36,7 @@ jobs:
         with:
           valueFile: 'dev-api-env-values.yaml'
           propertyPath: 'image.tag'
-          method: 'CreateOrUpdate' 
+          method: CreateOrUpdate
           repository: trigun14/stage
           branch: main
           targetBranch: main
