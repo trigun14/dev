@@ -18,6 +18,6 @@ jobs:
           value: hello123
           branch: main/hello123
           targetBranch: main 
-          createPR: false
+          createPR: 'false'
           message: 'Update Image Version to hello123' 
           workDir: .
