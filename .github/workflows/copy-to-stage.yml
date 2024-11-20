@@ -18,20 +18,18 @@ jobs:
       - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          propertyPath: 'tag'
           repository: trigun14/stage
           branch: main
           targetBranch: main
-          method: CreateOrUpdate
           message: 'Update Image Version to ${{ steps.image.outputs.version }}'
           token: ${{ secrets.PAT_TOKEN }}
           title: 'Version Updates '
           changes: |
             {
               "dev-ai-gateway-values.yaml": {
-                "tag": "new-tag"
+                "image.tag": "new-tag"
               },
               "dev-api-env-values.yaml": {
-                "tag": "new-tag-value"
+                "image.tag": "new-tag-value"
               }
             }
