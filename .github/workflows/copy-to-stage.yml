@@ -15,8 +15,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: trigun14/dev
-          path: .  # Checkout to the root of the workspace
-          token: ${{ secrets.PAT_TOKEN }}
 
       # Step 2: Read Image Tag from YAML
       - name: Read Image Tag from YAML
@@ -25,7 +23,7 @@ jobs:
         with:
           config: dev-ai-gateway-values.yaml  # Path to your YAML file
           env-var-prefix: MY_ENV_VAR  # Prefix for environment variables
-          key-path-pattern: ^image\.tag$  # Correct pattern to match just the image.tag key
+          key-path: '["image", "tag"]'  # Correct way to specify key path as a JSON list
 
       # Step 3: Checkout Target Repository 
       - name: Checkout Target Repository 
