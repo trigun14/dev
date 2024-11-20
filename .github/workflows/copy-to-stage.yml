@@ -21,15 +21,7 @@ jobs:
           value: hello123
           branch: main
           createPR: 'false'
-          message: 'Update DEV Image' 
-      - uses: fjogeleit/yaml-update-action@main
-        with:
-          valueFile: 'dev-budget-checker-values.yaml'
-          propertyPath: 'image.tag'
-          value: 1.0.1
-          branch: main
-          createPR: 'false'
-          message: 'Update STAGE Image' 
+          message: 'Update DEV Image'  
       - uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'dev-api-env-values.yaml'
