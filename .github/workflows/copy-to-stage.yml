@@ -21,25 +21,25 @@ jobs:
       # Step 2: Read Image Tag from YAML
       - name: Read Image Tag from YAML
         id: read_yaml
-        uses: ehsandanesh/action-read-yaml@env-var-and-filter
+        uses: pietrobolcato/action-read-yaml@main
         with:
-          config: dev-ai-gateway-values.yaml  # Correct path to the YAML file
-          env-var-prefix: MY_ENV_VAR
+          config: dev-ai-gateway-values.yaml  # Path to your YAML file
+          env-var-prefix: MY_ENV_VAR  # Prefix for environment variables
 
       # Step 3: Checkout Target Repository 
       - name: Checkout Target Repository 
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage
-          path: target  # Check out to a specific folder if needed
+          path: .  
           token: ${{ secrets.PAT_TOKEN }} 
 
       # Step 4: Update Image Version in values.yaml
       - name: Update Image Version in values.yaml
         uses: fjogeleit/yaml-update-action@main
-        with:         
-          repository: trigun14/stage
+        with:
           propertyPath: 'image.tag'
+          repository: trigun14/stage
           branch: main
           targetBranch: main
           message: 'Update Image Version to ${{ env.MY_ENV_VAR_image_tag }}'
