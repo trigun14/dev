@@ -1,35 +1,51 @@
-name: 'workflow'
+name: Extract and Use Tag with Workflow Outputs
 on:
   push:
     branches:
       - main
-jobs: 
-  test-target-repository:
-    runs-on: ubuntu-latest 
+
+jobs:
+  extract-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.extract_tag.outputs.value }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Checkout Target Repository 
+      # Step 1: Checkout the Repository
+      - name: Checkout Source Repository
+        uses: actions/checkout@v3
+        with:
+          repository: trigun14/dev
+          path: .
+          token: ${{ secrets.PAT_TOKEN }}
+
+      # Step 2: Parse YAML to Extract Tag
+      - name: Extract Image Tag
+        id: extract_tag
+        uses: mikefarah/yq-action@v2
+        with:
+          args: '.image.tag'
+          file: 'dev/dev-ai-gateway-values.yaml'
+
+  update-target:
+    runs-on: ubuntu-latest
+    needs: extract-tag
+    steps:
+      # Step 1: Checkout Target Repository
+      - name: Checkout Target Repository
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage
           path: .
-          token: ${{ secrets.PAT_TOKEN }} 
+          token: ${{ secrets.PAT_TOKEN }}
 
-      - name: Update Image Version in the related HelmChart values.yaml
+      # Step 2: Use Workflow Output
+      - name: Update Image Tag
         uses: fjogeleit/yaml-update-action@main
         with:
-          repository: trigun14/stage
-          branch: main
-          targetBranch: main
-          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
-          token: ${{ secrets.PAT_TOKEN }}
-          title: 'Version Updates '
           changes: |
             {
               "dev-ai-gateway-values.yaml": {
-                "image.tag": "new-tag"
-              },
-              "dev-api-env-values.yaml": {
-                "image.tag": "new-tag-value"
+                "image.tag": "${{ needs.extract-tag.outputs.image_tag }}"
               }
             }
+          token: ${{ secrets.PAT_TOKEN }}
