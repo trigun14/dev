@@ -20,7 +20,7 @@ jobs:
       - name: Define YAML Files
         id: define_files
         run: |
-          echo "files=dev-ai-gateway-values.yaml,dev-api-env-values.yaml,dev-budget-checker-values.yaml,dev-bullboard-values.yaml,dev-catalog-automation-values.yaml,dev-common-values.yaml,dev-testing.yaml" >> $GITHUB_ENV
+          echo "files=dev-ai-gateway-values.yaml,dev-api-env-values.yaml,dev-budget-checker-values.yaml,dev-bullboard-values.yaml,dev-common-values.yaml,dev-testing.yaml" >> $GITHUB_ENV
 
       # Step 3: Loop Through Each File to Read Image Tag and Update Target Repository
       - name: Update Image Tags in Target Repository
@@ -70,9 +70,6 @@ jobs:
               },
               "dev-bullboard-values.yaml": {
                 "image.tag": "${{ steps.read_tags.outputs['dev-bullboard-values.yaml'] }}"
-              },
-              "dev-catalog-automation-values.yaml": {
-                "image.tag": "${{ steps.read_tags.outputs['dev-catalog-automation-values.yaml'] }}"
               },
               "dev-common-values.yaml": {
                 "image.tag": "${{ steps.read_tags.outputs['dev-common-values.yaml'] }}"
