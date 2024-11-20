@@ -1,121 +1,74 @@
-replicaCount: 2
+replicaCount: 123
 imagePullSecrets: []
-nameOverride: "dev-api-env"
-fullnameOverride: "dev-api-env"
+nameOverride: "dev-ai-gateway"
+fullnameOverride: "dev-ai-gateway"
 
-name: dev-api-env
+serviceAccount:
+  create: true
+ 
+
+name: dev-ai-gateway
 image:
-  repository: 
   pullPolicy: IfNotPresent
   tag: 
-  command: [node, dist/apps/api/apps/api/src/main]
+  command: [node,dist/ggggappcvs/ai-gateway/apps/ai-gateway/src/main]
   resources:
     requests:
-      memory: "1Gi"
-      cpu: "500m"
+      memory: "256Mi"
+      cpu: "200m"
     limits:
-      memory: "1Gi"
-      cpu: "500m"
-
-livenessProbe:
-  httpGet:
-    path: /health
-    port: 8080
-  initialDelaySeconds: 10
-  timeoutSeconds: 1
-  periodSeconds: 10
-  successThreshold: 1
-  failureThreshold: 3
-
-readinessProbe:
-  httpGet:
-    path: /health
-    port: 8080
-  initialDelaySeconds: 10
-  timeoutSeconds: 1
-  periodSeconds: 10
-  successThreshold: 1
-  failureThreshold: 3
+      memory: "300Mi"
+      cpu: "200m"
 
 env:
-  - name: NODE_OPTIONS
-    value: '--max_old_space_size=800 --enable-source-maps'
-  - name: NEO4J_INSERT_CHUNK_SIZE
+  MICROSERcccVICE_NAME:
+    name: MICROSERVICE_NAME
+    value: 'ai-gateway-dev'
+  OPENAI_API_KEY:
+    name: OPENAI_API_KEY
     valueFrom:
       secretKeyRef:
         name: eks-secret-dev
-        key: NEO4J_INSERT_CHUNK_SIZE
-  - name: AUTH0_ISSUER
+        key: OPENAI_API_KEY
+  LLM_PROVIDER_NAME:
+    name: LLM_PROVIDER_NAME
     valueFrom:
       secretKeyRef:
         name: eks-secret-dev
-        key: AUTH0_ISSUER
-  - name: DATA_QUERY_MICROSERVICE_URL
+        key: LLM_PROVIDER_NAME
+  TOKENS_PER_MINUTE_LIMIT:
+    name: TOKENS_PER_MINUTE_LIMIT
     valueFrom:
       secretKeyRef:
         name: eks-secret-dev
-        key: DATA_QUERY_MICROSERVICE_URL
-  - name: QUERY_HISTORY_IMPORTER_MICROSERVICE_URL
+        key: TOKENS_PER_MINUTE_LIMIT
+  TOKENS_PER_DAY_LIMIT:
+    name: TOKENS_PER_DAY_LIMIT
     valueFrom:
       secretKeyRef:
         name: eks-secret-dev
-        key: QUERY_HISTORY_IMPORTER_MICROSERVICE_URL
-  - name: AI_GATEWAY_MICROSERVICE_URL
+        key: TOKENS_PER_DAY_LIMIT
+  NODE_ENV:
+    name: NODE_ENV
+    value: 'production'
+  CANONICAL_ENV:
+    name: CANONICAL_ENV
     valueFrom:
       secretKeyRef:
         name: eks-secret-dev
-        key: AI_GATEWAY_MICROSERVICE_URL
-  - name: AUTH0_DOMAIN
+        key: CANONICAL_ENV
+  REDIS_HOST:
+    name: REDIS_HOST
     valueFrom:
       secretKeyRef:
         name: eks-secret-dev
-        key: AUTH0_DOMAIN
-  - name: NEO4J_HOST
+        key: REDIS_HOST
+  REDIS_PORT:
+    name: REDIS_PORT
     valueFrom:
       secretKeyRef:
         name: eks-secret-dev
-        key: NEO4J_HOST
-  - name: FULLSTORY_ORG_ID
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: FULLSTORY_ORG_ID
-  - name: LINEAGE_MICROSERVICE_URL
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: LINEAGE_MICROSERVICE_URL
-  - name: AWS_S3_REGION
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: AWS_REGION_EU
-  - name: LAUNCHDARKLY_KEY_UI
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: LAUNCHDARKLY_KEY_UI
-  - name: SNOWFLAKE_SCHEMA
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: SNOWFLAKE_SCHEMA
-  - name: AWS_S3_BUCKET
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: AWS_S3_BUCKET
-  - name: LAUNCHDARKLY_KEY_API
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: LAUNCHDARKLY_KEY_API
-  - name: LOOKERSDK_BASE_URL
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: LOOKERSDK_BASE_URL
-  - name: SNOWFLAKE_WAREHOUSE
-    valueFrom:
-      secretKeyRef:
-        name: eks-secre
+        key: REDIS_PORT
+  PORT:
+    name: PORT
+    value: "8080"
