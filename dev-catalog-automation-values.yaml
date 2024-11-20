@@ -1,82 +1,54 @@
-replicaCount: 0
+replicaCount: 1
 imagePullSecrets: []
-nameOverride: "dev-catalog-automation"
-fullnameOverride: "dev-catalog-automation"
-
-ame: dev-ai-gateway
+nameOverride: dev-ai-gateway
+fullnameOverride: dev-ai-gateway
+serviceAccount:
+  create: true
+name: dev-ai-gateway
 image:
   pullPolicy: IfNotPresent
-  tag: 
-  command: [node,dist/ggggappcvs/ai-gateway/apps/ai-gateway/src/main]
+  tag: 12f23
+  command:
+    - node
+    - dist/ggggappcvs/ai-gateway/apps/ai-gateway/src/main
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "200m"
+      memory: 256Mi
+      cpu: 200m
     limits:
-      memory: "300Mi"
-      cpu: "200m"
-
+      memory: 300Mi
+      cpu: 200m
 env:
-  SNOWFLAKE_DB:
-    name: SNOWFLAKE_DB
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: SNOWFLAKE_DB
-  MICROSERVICE_NAME:
+  MICROSERcccVICE_NAME:
     name: MICROSERVICE_NAME
-    value: catalog-automation-dev
-  MONGODB_URI:
-    name: MONGODB_URI
+    value: ai-gateway-dev
+  OPENAI_API_KEY:
+    name: OPENAI_API_KEY
     valueFrom:
       secretKeyRef:
         name: eks-secret-dev
-        key: MONGODB_URI
-  MONGO_PASSWORD:
-    name: MONGO_PASSWORD
+        key: OPENAI_API_KEY
+  LLM_PROVIDER_NAME:
+    name: LLM_PROVIDER_NAME
     valueFrom:
       secretKeyRef:
         name: eks-secret-dev
-        key: MONGO_PASSWORD
-  SNOWFLAKE_ACCOUNT:
-    name: SNOWFLAKE_ACCOUNT
+        key: LLM_PROVIDER_NAME
+  TOKENS_PER_MINUTE_LIMIT:
+    name: TOKENS_PER_MINUTE_LIMIT
     valueFrom:
       secretKeyRef:
         name: eks-secret-dev
-        key: SNOWFLAKE_ACCOUNT
-  SNOWFLAKE_WAREHOUSE:
-    name: SNOWFLAKE_WAREHOUSE
+        key: TOKENS_PER_MINUTE_LIMIT
+  TOKENS_PER_DAY_LIMIT:
+    name: TOKENS_PER_DAY_LIMIT
     valueFrom:
       secretKeyRef:
         name: eks-secret-dev
-        key: SNOWFLAKE_WAREHOUSE
-  SNOWFLAKE_INGESTION_WAREHOUSE:
-    name: SNOWFLAKE_INGESTION_WAREHOUSE
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: SNOWFLAKE_INGESTION_WAREHOUSE
-  SNOWFLAKE_ROLE:
-    name: SNOWFLAKE_ROLE
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: SNOWFLAKE_ROLE
-  SNOWFLAKE_USERNAME:
-    name: SNOWFLAKE_USERNAME
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: SNOWFLAKE_USERNAME
-  SNOWFLAKE_PASSWORD:
-    name: SNOWFLAKE_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: eks-secret-dev
-        key: SNOWFLAKE_PASSWORD
+        key: TOKENS_PER_DAY_LIMIT
   NODE_ENV:
     name: NODE_ENV
-    value: 'production'
+    value: production
   CANONICAL_ENV:
     name: CANONICAL_ENV
     valueFrom:
@@ -97,4 +69,4 @@ env:
         key: REDIS_PORT
   PORT:
     name: PORT
-    value: "8080"
+    value: '8080'
