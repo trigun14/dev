@@ -4,15 +4,21 @@ on:
     branches:
       - main
 
-jobs:
-  test-update-file:
+test-multiple-file-changes:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Update values.yaml
-        uses: fjogeleit/yaml-update-action@main
+      - uses: ./
         with:
-          valueFile: 'dev-ai-gateway-values.yaml'
-          propertyPath: 'file.image.tag'
-          value: abc1223
-          commitChange: false
+          branch: stage/main/dev-ai-gateway-values.yaml
+          masterBranchName: main
+          createPR: 'false'
+          targetBranch: main
+          description: Test GitHub Action
+          message: 'Update All Images' 
+          title: 'Version Updates on all Environments'
+          changes: |
+            {
+              "dev-ai-gateway-values.yaml": {
+                "image.tag": "hello123",
+              }
