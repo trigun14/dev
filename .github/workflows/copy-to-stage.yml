@@ -10,12 +10,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
       - name: Update values.yaml
-        uses: .
+        uses: trigun14/stage@main
         with:
           valueFile: 'dev-ai-gateway-values.yaml'
           propertyPath: 'image.tag'
           value: hello123
-          branch: stage/main/hello123
+          branch: main/hello123
           targetBranch: main
           createPR: 'false'
           message: 'Update Image Version to hello123' 
