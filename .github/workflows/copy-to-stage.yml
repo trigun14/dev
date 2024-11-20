@@ -1,48 +1,36 @@
-name: 'Update Multiple Files'
+name: 'workflow'
 on:
   push:
     branches:
       - main
-
-jobs:
-  update-multiple-files:
-    runs-on: ubuntu-latest
+jobs: 
+  test-target-repository:
+    runs-on: ubuntu-latest 
     steps:
-      # Step 1: Checkout Target Repository
-      - name: Checkout Target Repository
+      - uses: actions/checkout@v2
+      - name: Checkout Target Repository 
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage
           path: .
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }} 
 
-      # Step 2: Update Each File Explicitly
-      - name: Update Image Version in dev-ai-gateway-values.yaml
+      - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'dev-ai-gateway-values.yaml'
           propertyPath: 'image.tag'
           repository: trigun14/stage
           branch: main
           targetBranch: main
-          method: CreateOrUpdate
-          createPR: false
           message: 'Update Image Version to ${{ steps.image.outputs.version }}'
           token: ${{ secrets.PAT_TOKEN }}
-          workDir: .
-
-      - name: Update Image Version in dev-api-env-values.yaml
-        uses: fjogeleit/yaml-update-action@main
-        with:
-          valueFile: 'dev-api-env-values.yaml'
-          propertyPath: 'image.tag'
-          repository: trigun14/stage
-          branch: main
-          targetBranch: main
-          method: CreateOrUpdate
-          createPR: false
-          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
-          token: ${{ secrets.PAT_TOKEN }}
-          workDir: .
-
-   
+          title: 'Version Updates '
+          changes: |
+            {
+              "*-ai-gateway-values.yaml": {
+                "image.tag": "hello123"
+              },
+              "*-api-env-values.yaml": {
+                "image.tag": "123hello"
+              }
+            }
