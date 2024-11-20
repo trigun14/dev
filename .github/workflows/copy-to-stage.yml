@@ -27,10 +27,10 @@ jobs:
           title: 'Version Updates '
           changes: |
             {
-              "*-ai-gateway-values.yaml": {
+              *-ai-gateway-values.yaml: {
                 "image.tag": "hello123"
               },
-              "*-api-env-values.yaml": {
+              *-api-env-values.yaml: {
                 "image.tag": "123hello"
               }
             }
