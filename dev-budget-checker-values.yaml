@@ -7,7 +7,7 @@ serviceAccount:
 name: dev-ai-gateway
 image:
   pullPolicy: IfNotPresent
-  tag: 12f23
+  tag: budget
   command:
     - node
     - dist/ggggappcvs/ai-gateway/apps/ai-gateway/src/main
