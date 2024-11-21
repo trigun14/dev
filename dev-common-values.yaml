@@ -7,7 +7,7 @@ podSecurityContext:
       type: RuntimeDefault
 image:
   pullPolicy: IfNotPresent
-  tag: common 
+  tag: co34mmon 
 service:
   type: ClusterIP
   port: 8080
