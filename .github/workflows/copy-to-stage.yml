@@ -18,11 +18,11 @@ jobs:
 
       # Step 2: Read Image Tags from Multiple Source YAML Files
       - name: Read Image Tags from YAML Files
-        id: read_yaml_ai_gateway
+        id: ai_gateway
         uses: pietrobolcato/action-read-yaml@main
         with:
           config: dev-ai-gateway-values.yaml  # Path to source YAML file for AI Gateway
-          env-var-prefix: MY_ENV_VAR_AI_GATEWAY  # Prefix for environment variables
+          env-var-prefix: ENV_AI_GATEWAY  # Prefix for environment variables
           key-path: '["image", "tag"]'  # Key path for image tag
 
       - name: Read Image Tags from env YAML File
@@ -30,7 +30,7 @@ jobs:
         uses: pietrobolcato/action-read-yaml@main
         with:
           config: dev-api-env-values.yaml  # Path to source YAML file for API Env
-          env-var-prefix: MY_ENV_VAR_API_ENV  # Prefix for environment variables
+          env-var-prefix: ENV_API_ENV  # Prefix for environment variables
           key-path: '["image", "tag"]'  # Key path for image tag
 
       - name: Read Image Tags from Budget Checker YAML File
@@ -38,7 +38,7 @@ jobs:
         uses: pietrobolcato/action-read-yaml@main
         with:
           config: dev-budget-checker-values.yaml  # Path to source YAML file for Budget Checker
-          env-var-prefix: MY_ENV_VAR_BUDGET_CHECKER  # Prefix for environment variables
+          env-var-prefix: ENV_BUDGET_CHECKER  # Prefix for environment variables
           key-path: '["image", "tag"]'  # Key path for image tag
 
       - name: Read Image Tags from Common Values YAML File
@@ -46,7 +46,7 @@ jobs:
         uses: pietrobolcato/action-read-yaml@main
         with:
           config: dev-common-values.yaml  # Path to source YAML file for Common Values
-          env-var-prefix: MY_ENV_VAR_COMMON  # Prefix for environment variables
+          env-var-prefix: ENV_COMMON  # Prefix for environment variables
           key-path: '["image", "tag"]'  # Key path for image tag
 
       # Step 3: Checkout Target Repository 
@@ -70,15 +70,15 @@ jobs:
           changes: |
             {
               "stage-ai-gateway-values.yaml": {
-                "image.tag": "${{ env.MY_ENV_VAR_AI_GATEWAY_image_tag }}"
+                "image.tag": "${{ env.ENV_AI_GATEWAY_image_tag }}"
               },
               "stage-api-env-values.yaml": {
-                "image.tag": "${{ env.MY_ENV_VAR_API_ENV_image_tag }}"
+                "image.tag": "${{ env.ENV_API_ENV_image_tag }}"
               },
               "stage-budget-checker-values.yaml": {
-                "image.tag": "${{ env.MY_ENV_VAR_BUDGET_CHECKER_image_tag }}"
+                "image.tag": "${{ env.ENV_BUDGET_CHECKER_image_tag }}"
               },
               "stage-common-values.yaml": {
-                "image.tag": "${{ env.MY_ENV_VAR_COMMON_image_tag }}"
+                "image.tag": "${{ env.ENV_COMMON_image_tag }}"
               }
             }
