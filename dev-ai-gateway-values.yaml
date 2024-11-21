@@ -1,6 +1,6 @@
 replicaCount: 123
 imagePullSecrets: []
-nameOverride: "dev-ai-gateway"
+nameOverride: "dev--gateway"
 fullnameOverride: "dev-ai-gateway"
 
 serviceAccount:
