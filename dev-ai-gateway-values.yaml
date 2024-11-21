@@ -14,7 +14,7 @@ image:
   command: [node,dist/ggggappcvs/ai-gateway/apps/ai-gateway/src/main]
   resources:
     requests:
-      memory: "256Mi"
+      memory: "256M"
       cpu: "200m"
     limits:
       memory: "300Mi"
