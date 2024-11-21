@@ -5,7 +5,9 @@ podSecurityContext:
   runAsNonRoot: true
   seccompProfile:
       type: RuntimeDefault
-
+image:
+  pullPolicy: IfNotPresent
+  tag: common 
 service:
   type: ClusterIP
   port: 8080
