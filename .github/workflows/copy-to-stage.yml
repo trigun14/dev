@@ -25,7 +25,7 @@ jobs:
           env-var-prefix: MY_ENV_VAR_AI_GATEWAY  # Prefix for environment variables
           key-path: '["image", "tag"]'  # Key path for image tag
 
-      - name: Read Image Tags from Another YAML File
+      - name: Read Image Tags from env YAML File
         id: read_yaml_api_env
         uses: pietrobolcato/action-read-yaml@main
         with:
@@ -69,16 +69,16 @@ jobs:
           title: 'Version Updates'
           changes: |
             {
-              "dev-ai-gateway-values.yaml": {
+              "stage-ai-gateway-values.yaml": {
                 "image.tag": "${{ env.MY_ENV_VAR_AI_GATEWAY_image_tag }}"
               },
-              "dev-api-env-values.yaml": {
+              "stage-api-env-values.yaml": {
                 "image.tag": "${{ env.MY_ENV_VAR_API_ENV_image_tag }}"
               },
-              "dev-budget-checker-values.yaml": {
+              "stage-budget-checker-values.yaml": {
                 "image.tag": "${{ env.MY_ENV_VAR_BUDGET_CHECKER_image_tag }}"
               },
-              "dev-common-values.yaml": {
+              "stage-common-values.yaml": {
                 "image.tag": "${{ env.MY_ENV_VAR_COMMON_image_tag }}"
               }
             }
