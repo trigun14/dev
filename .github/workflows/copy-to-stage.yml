@@ -29,7 +29,8 @@ jobs:
           for file in stage/dev-*.yaml; do
             mv "$file" "${file/dev-/stage-}"
           done
-
+      - name: List files in source repo
+        run: ls
       - name: Checkout Destination Repository (stage) using PAT
         uses: actions/checkout@v3
         with:
