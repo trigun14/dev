@@ -38,6 +38,7 @@ jobs:
 
       - name: Configure Git and Push Changes
         run: |
+          cd stage
           # Set Git configuration for commit
           git config --global user.name "trigun14"
           git config --global user.email "trigunanandmishra07@gmail.com"
