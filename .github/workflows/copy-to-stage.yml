@@ -37,3 +37,4 @@ jobs:
           git commit -m "Copied files from dev repository"  # Commit changes
           git push origin main  # Push to the 'main' branch of the destination repo
           token: ${{ secrets.PAT_TOKEN }}
+        shell: bash
