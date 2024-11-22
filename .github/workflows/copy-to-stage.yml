@@ -30,9 +30,9 @@ jobs:
             mv "$file" "${file/dev-/stage-}"
           done
       - name: List files in source repo
-        run: ls
-      - name: List files in source repo
         run: cd stage
+      - name: List files in source repo
+        run: ls
       - name: Checkout Destination Repository (stage) using PAT
         uses: actions/checkout@v3
         with:
