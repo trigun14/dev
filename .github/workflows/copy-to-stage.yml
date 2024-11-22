@@ -18,7 +18,7 @@ jobs:
       - name: Prepare files for staging
         run: |
           # Loop to rename the files in 'stage' directory
-          for file in /dev-*.yaml; do
+          for file in pwd; do
             mv "$file" "${file/dev-/stage-}"
           done
       - name: List files in source repo
