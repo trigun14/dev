@@ -26,7 +26,7 @@ jobs:
           cp -r !(stage|.git|.github) stage  # Copy everything except the excluded folders
 
           # Loop to rename the files
-          for file in ./stage/dev-*.yaml; do
+          for file in stage/dev-*.yaml; do
             mv "$file" "${file/dev-/stage-}"
           done
 
