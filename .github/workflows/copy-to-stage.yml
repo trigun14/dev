@@ -42,8 +42,6 @@ jobs:
         with:
           repository: trigun14/stage
           token: ${{ secrets.PAT_TOKEN }}  # Use your personal access token for authentication
-      - name: Configure Git and Push Changes
-        run: |
           # Set Git configuration for commit
           git config --global user.name "trigun14"
           git config --global user.email "trigunanandmishra07@gmail.com"
