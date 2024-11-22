@@ -21,6 +21,7 @@ jobs:
 
       - name: Prepare and Push to Stage Repository
         run: |
+          ls
           # Create 'stage' directory if it doesn't exist
           mkdir -p stage
 
