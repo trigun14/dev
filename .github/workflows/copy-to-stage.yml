@@ -29,13 +29,12 @@ jobs:
           for file in stage/dev-*.yaml; do
             mv "$file" "${file/dev-/stage-}"
           done
+          # Navigate to the 'stage' directory
+          cd stage
       - name: Checkout Destination Repository (stage) using PAT
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage
-          # Navigate to the 'stage' directory
-          cd stage
-
           # Set Git configuration for commit
           git config --global user.name "trigun14"
           git config --global user.email "trigunanandmishra07@gmail.com"
