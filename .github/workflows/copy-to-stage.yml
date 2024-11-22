@@ -17,27 +17,23 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage
-          token: ${{ secrets.PAT_TOKEN }}  # Use PAT token for authentication with destination repo
 
       - name: Prepare and Push to Stage Repository
         run: |
           # Copy contents of the dev repo to the 'stage' folder
           shopt -s extglob
           cp -r !(stage|.git|.github) stage  # Copy everything except the excluded folders
-
           # Loop to rename the files
           for file in stage/dev-*.yaml; do
             mv "$file" "${file/dev-/stage-}"
           done
-
           # Navigate to the 'stage' directory
           cd stage
-
           # Set Git configuration for commit
           git config --global user.name "trigun14"
           git config --global user.email "trigunanandmishra07@gmail.com"
-
           # Add changes, commit, and push to the destination repository
           git add .  # Stage all changes
           git commit -m "Copied files from dev repository"  # Commit changes
           git push origin main  # Push to the 'main' branch of the destination repo
+          token: ${{ secrets.PAT_TOKEN }}
