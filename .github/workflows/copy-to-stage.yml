@@ -18,17 +18,19 @@ jobs:
         with:
           repository: trigun14/stage
           token: ${{ secrets.PAT_TOKEN }}  # Use your personal access token for authentication
-
+      - name : list files 
+        run: ls
       - name: Prepare and Push to Stage Repository
         run: |
-          ls
           # Create 'stage' directory if it doesn't exist
           mkdir -p stage
 
           # Copy files excluding certain patterns
           shopt -s extglob
           cp -r !(stage) . stage/  
-
+      - name : list files 
+        run: |
+          ls
           # Loop to rename the files in 'stage' directory
           for file in stage/dev-*.yaml; do
             mv "$file" "${file/dev-/stage-}"
