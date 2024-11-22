@@ -14,15 +14,24 @@ jobs:
         uses: actions/checkout@v3  # Checks out the 'dev' repository (source)
 
       - name: List files in source repo
-        run: ls
+        run: ls -a  # List all files, including hidden ones, in the source repository
+
       - name: Prepare files for staging
         run: |
-          # Loop to rename the files in 'stage' directory
-          for file in .; do
+          # Create the 'stage' directory if it doesn't exist
+          mkdir -p stage
+          
+          # Copy all files except hidden files into 'stage' directory
+          rsync -av --exclude '.git/' --exclude '.github/' ./ stage/
+          
+          # Rename files in 'stage' directory
+          for file in stage/dev-*.yaml; do
             mv "$file" "${file/dev-/stage-}"
           done
-      - name: List files in source repo
-        run: ls
+
+      - name: List files in 'stage' directory
+        run: ls -a stage  # Verify the files prepared in the 'stage' directory
+
       - name: Checkout Destination Repository (stage) using PAT
         uses: actions/checkout@v3
         with:
@@ -31,6 +40,9 @@ jobs:
 
       - name: Configure Git and Push Changes
         run: |
+          # Navigate to the 'stage' directory
+          cd stage
+          
           # Set Git configuration for commit
           git config --global user.name "trigun14"
           git config --global user.email "trigunanandmishra07@gmail.com"
@@ -38,4 +50,4 @@ jobs:
           # Add changes, commit, and push to the destination repository
           git add .  # Stage all changes
           git commit -m "Copied files from dev repository"  # Commit changes
-          git push origin main  # Push to the 'main' branch of the destination repo 
+          git push origin main  # Push to the 'main' branch of the destination repo
