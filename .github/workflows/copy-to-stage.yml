@@ -1,4 +1,4 @@
-name: Copy Files to Stage Repo
+name: Copy Files to Stage Repo 
 
 on:
   push:
