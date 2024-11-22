@@ -39,15 +39,18 @@ jobs:
           ls -a
       - name: Checkout Destination Repository (stage) using PAT
         uses: actions/checkout@v3
-        with:
+        with: 
           repository: trigun14/stage
           branch: main
           token: ${{ secrets.PAT_TOKEN }}  # Use your personal access token for authentication
-            # Set Git configuration for commit
-            git config --global user.name "trigun14"
-            git config --global user.email "trigunanandmishra07@gmail.com"
-  
-            # Add changes, commit, and push to the destination repository
-            git add .  # Stage all changes
-            git commit -m "Copied files from dev repository"  # Commit changes
-            git push origin main  # Push to the 'main' branch of the destination repo
+       
+      - name: Configure Git and Push Changes
+        run: |
+          # Set Git configuration for commit
+          git config --global user.name "trigun14"
+          git config --global user.email "trigunanandmishra07@gmail.com"
+          
+          # Add changes, commit, and push to the destination repository
+          git add .  # Stage all changes
+          git commit -m "Copied files from dev repository" || echo "No changes t     # Set Git configuration for commit
+          git push origin main  # Push to the 'main' branch of the destination repo
