@@ -31,6 +31,8 @@ jobs:
           done
       - name: List files in source repo
         run: ls
+      - name: List files in source repo
+        run: cd stage
       - name: Checkout Destination Repository (stage) using PAT
         uses: actions/checkout@v3
         with:
@@ -39,7 +41,6 @@ jobs:
 
       - name: Configure Git and Push Changes
         run: |
-          cd stage
           # Set Git configuration for commit
           git config --global user.name "trigun14"
           git config --global user.email "trigunanandmishra07@gmail.com"
