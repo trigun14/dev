@@ -27,7 +27,7 @@ jobs:
 
           # Copy files excluding certain patterns
           shopt -s extglob
-          cp -r !(stage|.git|.github) stage/  
+          cp -r !(stage) stage/  
 
           # Loop to rename the files in 'stage' directory
           for file in stage/dev-*.yaml; do
