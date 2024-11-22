@@ -6,7 +6,7 @@ on:
       - main  # Trigger the workflow when changes are pushed to the 'main' branch
 
 jobs:
-  copy-files:
+  copy-files: 
     runs-on: ubuntu-latest 
 
     steps:
