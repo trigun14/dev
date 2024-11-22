@@ -41,6 +41,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage
+          branch: main
           token: ${{ secrets.PAT_TOKEN }}  # Use your personal access token for authentication
           # Set Git configuration for commit
           git config --global user.name "trigun14"
