@@ -20,8 +20,8 @@ jobs:
 
       - name: Prepare and Push to Stage Repository
         run: |
-          # Copy contents of the dev repo to the 'stage' folder
-          cp -r .  stage/  
+          shopt -s extglob
+          cp -r !(stage1|.git|.github) . stage/  
           # Loop to rename the files
           for file in stage/dev-*.yaml; do
             mv "$file" "${file/dev-/stage-}"
