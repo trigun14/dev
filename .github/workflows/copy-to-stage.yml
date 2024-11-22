@@ -1,84 +1,43 @@
-name: 'Update Image Tags'
+name: Copy Files to Stage Repo
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger the workflow when changes are pushed to the 'main' branch
 
-jobs: 
-  update-image-tags:
-    runs-on: ubuntu-latest 
+jobs:
+  copy-files:
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout Source Repository
-      - name: Checkout Source Repository
-        uses: actions/checkout@v3
-        with:
-          repository: trigun14/dev
+      - name: Checkout Source Repository (dev)
+        uses: actions/checkout@v3  # Checks out the 'dev' repository (source)
 
-      # Step 2: Read Image Tags from Multiple Source YAML Files
-      - name: Read Image Tags from YAML Files
-        id: ai_gateway
-        uses: pietrobolcato/action-read-yaml@main
-        with:
-          config: dev-ai-gateway-values.yaml  # Path to source YAML file for AI Gateway
-          env-var-prefix: ENV_AI_GATEWAY  # Prefix for environment variables
-          key-path: '["image", "tag"]'  # Key path for image tag
-
-      - name: Read Image Tags from env YAML File
-        id: read_yaml_api_env
-        uses: pietrobolcato/action-read-yaml@main
-        with:
-          config: dev-api-env-values.yaml  # Path to source YAML file for API Env
-          env-var-prefix: ENV_API_ENV  # Prefix for environment variables
-          key-path: '["image", "tag"]'  # Key path for image tag
-
-      - name: Read Image Tags from Budget Checker YAML File
-        id: read_yaml_budget_checker
-        uses: pietrobolcato/action-read-yaml@main
-        with:
-          config: dev-budget-checker-values.yaml  # Path to source YAML file for Budget Checker
-          env-var-prefix: ENV_BUDGET_CHECKER  # Prefix for environment variables
-          key-path: '["image", "tag"]'  # Key path for image tag
-
-      - name: Read Image Tags from Common Values YAML File
-        id: read_yaml_common
-        uses: pietrobolcato/action-read-yaml@main
-        with:
-          config: dev-common-values.yaml  # Path to source YAML file for Common Values
-          env-var-prefix: ENV_COMMON  # Prefix for environment variables
-          key-path: '["image", "tag"]'  # Key path for image tag
-
-      # Step 3: Checkout Target Repository 
-      - name: Checkout Target Repository 
+      - name: Checkout Destination Repository (stage) using PAT
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage
-          path: .  
-          token: ${{ secrets.PAT_TOKEN }} 
+          token: ${{ secrets.PAT_TOKEN }}  # Use PAT token for authentication with destination repo
 
-      # Step 4: Update Image Tags in Corresponding Target YAML Files
-      - name: Update Image Tags in Target YAML Files
-        uses: fjogeleit/yaml-update-action@main
-        with:
-          repository: trigun14/stage
-          branch: main
-          targetBranch: main
-          message: 'Update Image Versions'
-          token: ${{ secrets.PAT_TOKEN }}
-          title: 'Version Updates'
-          changes: |
-            {
-              "stage-ai-gateway-values.yaml": {
-                "image.tag": "${{ env.ENV_AI_GATEWAY_image_tag }}"
-              },
-              "stage-api-env-values.yaml": {
-                "image.tag": "${{ env.ENV_API_ENV_image_tag }}"
-              },
-              "stage-budget-checker-values.yaml": {
-                "image.tag": "${{ env.ENV_BUDGET_CHECKER_image_tag }}"
-              },
-              "stage-common-values.yaml": {
-                "image.tag": "${{ env.ENV_COMMON_image_tag }}"
-              }
-            }
+      - name: Prepare and Push to Stage Repository
+        run: |
+          # Copy contents of the dev repo to the 'stage' folder
+          shopt -s extglob
+          cp -r !(stage|.git|.github) ./stage/  # Copy everything except the excluded folders
+
+          # Loop to rename the files
+          for file in ./stage/dev-*.yaml; do
+            mv "$file" "${file/dev-/stage-}"
+          done
+
+          # Navigate to the 'stage' directory
+          cd stage
+
+          # Set Git configuration for commit
+          git config --global user.name "trigun14"
+          git config --global user.email "trigunanandmishra07@gmail.com"
+
+          # Add changes, commit, and push to the destination repository
+          git add .  # Stage all changes
+          git commit -m "Copied files from dev repository"  # Commit changes
+          git push origin main  # Push to the 'main' branch of the destination repo
