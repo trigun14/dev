@@ -36,6 +36,7 @@ jobs:
           # Navigate to the 'stage' directory
           cd stage
           ls -a
+          rm -r stage
       - name: Checkout Destination Repository (stage) using PAT
         uses: actions/checkout@v3
         with:
