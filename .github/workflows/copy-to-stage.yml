@@ -35,14 +35,12 @@ jobs:
         run: |
           # Navigate to the 'stage' directory
           cd stage
+          ls -a
       - name: Checkout Destination Repository (stage) using PAT
         uses: actions/checkout@v3
         with:
           repository: trigun14/stage
           token: ${{ secrets.PAT_TOKEN }}  # Use your personal access token for authentication
-      - name: ls to check 
-        run: |
-          ls 
       - name: Configure Git and Push Changes
         run: |
           # Set Git configuration for commit
