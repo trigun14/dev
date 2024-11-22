@@ -1,4 +1,4 @@
-name: Copy Files to Stage Repo 
+name: Copy Files to Stage Repo
 
 on:
   push:
@@ -6,9 +6,9 @@ on:
       - main  # Trigger the workflow when changes are pushed to the 'main' branch
 
 jobs:
-  copy-files: 
+  copy-files:
     runs-on: ubuntu-latest 
- 
+
     steps:
       - name: Checkout Source Repository (dev)
         uses: actions/checkout@v3  # Checks out the 'dev' repository (source)
@@ -31,18 +31,18 @@ jobs:
 
       - name: List files in 'stage' directory
         run: ls -a stage  # Verify the files prepared in the 'stage' directory
-      - name: Configure Git and Push Changes
-        run: |
-          # Navigate to the 'stage' directory
-          cd stage
-          ls -a stage
+
       - name: Checkout Destination Repository (stage) using PAT
         uses: actions/checkout@v3
-        with: 
+        with:
           repository: trigun14/stage
-          branch: main
           token: ${{ secrets.PAT_TOKEN }}  # Use your personal access token for authentication
-       
+
+      - name: Copy prepared files to destination repo
+        run: |
+          # Copy files from the 'stage' directory to the root of the destination repository
+          cp -r stage/* .  # Copy the prepared files to the root directory
+
       - name: Configure Git and Push Changes
         run: |
           # Set Git configuration for commit
@@ -51,5 +51,5 @@ jobs:
           
           # Add changes, commit, and push to the destination repository
           git add .  # Stage all changes
-          git commit -m "Copied files from dev repository"
+          git commit -m "Copied files from dev repository" || echo "No changes to commit"  # Commit changes
           git push origin main  # Push to the 'main' branch of the destination repo
