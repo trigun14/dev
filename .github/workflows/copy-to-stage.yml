@@ -52,5 +52,5 @@ jobs:
           
           # Add changes, commit, and push to the destination repository
           git add .  # Stage all changes
-          git commit -m "Copied files from dev repository" || echo "No changes t     # Set Git configuration for commit
+          git commit -m "Copied files from dev repository"
           git push origin main  # Push to the 'main' branch of the destination repo
